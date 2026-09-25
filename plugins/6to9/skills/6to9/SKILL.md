@@ -1,6 +1,6 @@
 ---
 name: 6to9
-description: Product and competitor intelligence for the product in this repo, from 6to9. Use BEFORE designing or building a landing page or hero, signup or login, onboarding, a pricing page or core app flows; when asked what to build next; when conversion, activation or signups are low; when asked how competitors do something; and whenever 6to9 is mentioned. Gives ranked, competitor-grounded recommendations and build-ready specs.
+description: "Product and competitor intelligence for the product in this repo, from 6to9. Use BEFORE designing or building a landing page or hero, signup or login, onboarding, a pricing page or core app flows; when asked what to build next; when conversion, activation or signups are low; when asked how competitors do something; and whenever 6to9 is mentioned. Gives ranked, competitor-grounded recommendations and build-ready specs."
 ---
 
 <!-- GENERATED from guide/agent-guide.md in github.com/6to9-ai/6to9-plugin by scripts/generate.py (Claude Code skill). Edit the source and re-run; never edit a copy. -->

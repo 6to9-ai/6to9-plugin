@@ -1,5 +1,6 @@
 """Stdlib tests for scripts/generate.py. Run: python -m unittest discover tests"""
 import importlib.util
+import json
 import unittest
 from pathlib import Path
 
@@ -49,6 +50,20 @@ class GenerateTest(unittest.TestCase):
             if name != "generated/server_instructions.md":
                 self.assertNotIn("<!-- core", text, name)
                 self.assertNotIn("<!-- /core", text, name)
+
+    def test_description_containing_colon_space_is_quoted_yaml(self):
+        # A description with `": "` (or a leading quote) breaks a bare YAML
+        # `key: value` scalar — it reads as a nested mapping. render() must
+        # JSON-quote description so it survives.
+        tricky = 'Use when: the user asks "what next?" or says: build it.'
+        out = {p.relative_to(generate.ROOT).as_posix(): t
+               for p, t in generate.render({"name": "6to9", "description": tricky}, self.body).items()}
+        for name in ("plugins/6to9/skills/6to9/SKILL.md", "clients/cursor/6to9.mdc"):
+            front = out[name].split("---\n", 2)[1]
+            desc_line = next(ln for ln in front.splitlines() if ln.startswith("description: "))
+            quoted = desc_line[len("description: "):]
+            self.assertTrue(quoted.startswith('"') and quoted.endswith('"'), quoted)
+            self.assertEqual(json.loads(quoted), tricky)
 
     def test_every_tool_is_named_in_the_guide(self):
         for tool in ("list_my_products", "recommend_features", "get_build_spec", "get_mvp_brief",

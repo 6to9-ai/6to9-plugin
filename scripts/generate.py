@@ -21,6 +21,7 @@ Stdlib only, so the repo needs no install step.
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -79,12 +80,17 @@ def demote(body: str) -> str:
 
 def render(meta: dict[str, str], body: str) -> dict[Path, str]:
     full = strip_markers(body)
+    # JSON-quoted: a bare `key: value` YAML scalar breaks the moment `value`
+    # contains ": " (read as a nested mapping) or opens with a quote char.
+    # A JSON string is also a valid YAML double-quoted scalar, so this is
+    # always safe and never just for the cases that would otherwise break.
+    desc = json.dumps(meta["description"])
     return {
         ROOT / "plugins/6to9/skills/6to9/SKILL.md": (
-            f"---\nname: {meta['name']}\ndescription: {meta['description']}\n---\n\n"
+            f"---\nname: {meta['name']}\ndescription: {desc}\n---\n\n"
             f"{provenance('Claude Code skill')}\n\n{full}"),
         ROOT / "clients/cursor/6to9.mdc": (
-            f"---\ndescription: {meta['description']}\nalwaysApply: false\n---\n\n"
+            f"---\ndescription: {desc}\nalwaysApply: false\n---\n\n"
             f"{provenance('Cursor rule')}\n\n{full}"),
         ROOT / "clients/codex/AGENTS.snippet.md": (
             f"<!-- 6to9:start -->\n{provenance('Codex AGENTS.md block')}\n\n"
