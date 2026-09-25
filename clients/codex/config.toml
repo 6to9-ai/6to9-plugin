@@ -1,0 +1,6 @@
+# Add to ~/.codex/config.toml (or a project's .codex/config.toml).
+# Codex reads SIXTO9_API_KEY at connect time and sends it as
+# `Authorization: Bearer <key>`.
+[mcp_servers.sixto9]
+url = "https://mcp.6to9.ai/mcp"
+bearer_token_env_var = "SIXTO9_API_KEY"

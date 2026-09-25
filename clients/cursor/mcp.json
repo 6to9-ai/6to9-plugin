@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "6to9": {
+      "url": "https://mcp.6to9.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:SIXTO9_API_KEY}"
+      }
+    }
+  }
+}
