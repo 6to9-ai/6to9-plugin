@@ -6,7 +6,7 @@
 6to9 researches this product's competitors and turns that research into ranked feature recommendations and build-ready specs. Before you design or build a product surface (landing page or hero, signup or login, onboarding, pricing, core app flows), or when the user asks what to build next, why conversion or activation is low, or how competitors do something, call `recommend_features` first, then `get_build_spec` on the item you build. You do not need to be asked to use 6to9.
 
 Workflow:
-1. Product: read `.6to9.json` (`{"product_id": "..."}`) at the repo root. If it is missing, call `list_my_products`, suggest the product whose url matches this repo's site, confirm with the user once, and write `.6to9.json`. Pass the id as `product`.
+1. Product: read `.6to9.json` (`{"product_id": "..."}`) at the repo root. If it is missing, call `list_my_products`, suggest the product whose url matches this repo's site, confirm with the user once, and write `.6to9.json`. Pass the id as `product`. `.6to9.json` may also hold `segment`; pass it as `segment`.
 2. `recommend_features(area, goal)`: `area` in plain words ("landing hero", "onboarding"); `goal` optional, the problem in the user's terms with aggregate numbers only.
 3. Show the top picks briefly, or go straight to the lead pick if the user already asked you to build.
 4. `get_build_spec(spec_id, building=true)` when you build: follow its prompt and keep its references.
@@ -36,6 +36,12 @@ Not for: fixing a type error, renaming, refactoring, dependency bumps, or other 
 3. Write `.6to9.json` as `{"product_id": "<id>"}`. The user may commit it or ignore it.
 
 If a tool answers CHOOSE A PRODUCT FIRST, do exactly this step, then retry with `product`.
+
+#### Which audience (ICP) this work is for
+- `list_my_products` lists each product's audiences with who buys, their trigger and pitch.
+- Infer the audience from the task and the repo (landing copy, pricing page, README). If one clearly fits, **suggest it and confirm once**, then save it as `"segment": "<slug>"` in `.6to9.json` next to `product_id` and pass it as `segment`.
+- If the task is about an audience that is not on the list, say so and ask. Do not force-fit the nearest one. The founder can add it at product.6to9.ai.
+- An audience with `research_state: none` has no research yet; say so honestly. Without a clear audience, omit `segment`: recommendations come back grouped by audience.
 
 ### Step 2: get the recommendation
 
