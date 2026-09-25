@@ -64,7 +64,7 @@ The first time, the agent asks which 6to9 product this repo is and saves the ans
 
 ## What your agent sends
 
-Only what a tool call needs: your product id, the area you're working on, and optionally a one-line goal in your words. The guidance tells agents to send aggregate numbers only (never user-level data, secrets or code), and every tool works without a goal.
+Only what a tool call needs: your product id, the area you're working on, and optionally a one-line goal in your words. When you report back after shipping, that's `report_build_result`'s `metrics` (aggregate numbers, e.g. "signup rate +12% over 2 weeks") and `note` — never user-level data. The guidance tells agents to send aggregate numbers only everywhere (never user-level data, secrets or code), and every tool works without a goal or a build report.
 
 ## Tools
 
