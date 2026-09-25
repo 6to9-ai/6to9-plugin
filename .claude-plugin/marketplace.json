@@ -1,0 +1,15 @@
+{
+  "name": "6to9",
+  "owner": {
+    "name": "6to9",
+    "url": "https://6to9.ai"
+  },
+  "description": "6to9 for coding agents: competitor-grounded feature recommendations and build-ready specs for your product.",
+  "plugins": [
+    {
+      "name": "6to9",
+      "source": "./plugins/6to9",
+      "description": "Ranked, competitor-grounded recommendations and build-ready specs for the product in your repo, from your 6to9 account."
+    }
+  ]
+}

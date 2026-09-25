@@ -1,0 +1,28 @@
+{
+  "name": "6to9",
+  "displayName": "6to9",
+  "version": "0.1.0",
+  "description": "Ranked, competitor-grounded recommendations and build-ready specs for the product in your repo, from your 6to9 account.",
+  "author": {
+    "name": "6to9",
+    "url": "https://6to9.ai"
+  },
+  "userConfig": {
+    "api_key": {
+      "type": "string",
+      "title": "6to9 API key",
+      "description": "Your sk_intel_... key. Mint one at https://product.6to9.ai/settings/api-keys",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "mcpServers": {
+    "6to9": {
+      "type": "http",
+      "url": "https://mcp.6to9.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${user_config.api_key}"
+      }
+    }
+  }
+}
