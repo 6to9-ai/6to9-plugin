@@ -19,6 +19,8 @@ From a shell instead: `claude plugin marketplace add 6to9-ai/6to9-plugin` then `
 
 The plugin adds a `6to9` skill that tells Claude when to consult 6to9 and how, plus the MCP server.
 
+Updates: turn on auto-update in `/plugin` → Marketplaces → 6to9 (off by default for third-party marketplaces), or update manually with `/plugin marketplace update 6to9`, `claude plugin update 6to9@6to9`, then `/reload-plugins`.
+
 ## Cursor
 
 1. Add the server to `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project). Copy [`clients/cursor/mcp.json`](clients/cursor/mcp.json):
@@ -84,3 +86,14 @@ Only what a tool call needs: your product id, the area you're working on, and op
 `guide/agent-guide.md` is the single source. `python scripts/generate.py` writes the Claude Code skill, the Cursor rule, the Codex block and `generated/server_instructions.md`; CI runs `python scripts/generate.py --check`. After changing the guide, copy `generated/server_instructions.md` into the MCP service's `mcp/server_instructions.md` and redeploy it, so every client hears the same thing.
 
 Trigger evals: `cd plugins/6to9 && claude plugin eval .` (Claude Code v2.1.269 or later; mocked MCP answers, no key needed).
+
+### Releasing
+
+Installed plugins update only when the computed version changes — the `version` field in `plugins/6to9/.claude-plugin/plugin.json` wins. If plugin content changes but that field doesn't, users never receive it.
+
+1. Edit `guide/agent-guide.md`.
+2. Regenerate: `python scripts/generate.py`.
+3. Bump `version` in `plugins/6to9/.claude-plugin/plugin.json` (semver).
+4. Push and tag the release: `vX.Y.Z`.
+
+CI (`.github/workflows/check.yml`) fails a PR or push that changes anything under `plugins/6to9/` (excluding `plugins/6to9/evals/`, which never ships) without bumping `version`.
