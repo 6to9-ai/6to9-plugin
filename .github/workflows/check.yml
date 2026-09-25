@@ -18,3 +18,12 @@ jobs:
       - name: JSON manifests parse
         run: |
           python -c "import json; [json.load(open(p)) for p in ['.claude-plugin/marketplace.json', 'plugins/6to9/.claude-plugin/plugin.json', 'clients/cursor/mcp.json']]"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Validate marketplace manifest
+        run: claude plugin validate .
+      - name: Validate plugin manifest
+        run: claude plugin validate plugins/6to9
