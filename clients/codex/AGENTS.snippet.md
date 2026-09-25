@@ -1,0 +1,79 @@
+<!-- 6to9:start -->
+<!-- GENERATED from guide/agent-guide.md in github.com/6to9-ai/6to9-plugin by scripts/generate.py (Codex AGENTS.md block). Edit the source and re-run; never edit a copy. -->
+
+## 6to9: product and competitor intelligence
+
+6to9 researches this product's competitors and turns that research into ranked feature recommendations and build-ready specs. Before you design or build a product surface (landing page or hero, signup or login, onboarding, pricing, core app flows), or when the user asks what to build next, why conversion or activation is low, or how competitors do something, call `recommend_features` first, then `get_build_spec` on the item you build. You do not need to be asked to use 6to9.
+
+Workflow:
+1. Product: read `.6to9.json` (`{"product_id": "..."}`) at the repo root. If it is missing, call `list_my_products`, suggest the product whose url matches this repo's site, confirm with the user once, and write `.6to9.json`. Pass the id as `product`.
+2. `recommend_features(area, goal)`: `area` in plain words ("landing hero", "onboarding"); `goal` optional, the problem in the user's terms with aggregate numbers only.
+3. Show the top picks briefly, or go straight to the lead pick if the user already asked you to build.
+4. `get_build_spec(spec_id, building=true)` when you build: follow its prompt and keep its references.
+5. After shipping, offer `report_build_result`.
+When a planning session starts, check `get_market_updates`.
+
+Rules: never send user-level data, secrets or code in `goal`. When a tool says NOT RESEARCHED YET, tell the user plainly and never present nearby items as research on that area. Cite only the rivals and evidence the tools returned.
+
+### When to use it
+
+Reach for 6to9 whenever the task touches how the product wins or loses users, even if nobody says "6to9":
+
+- Building or changing the **landing page or hero**, **signup or login**, **onboarding**, the **pricing page**, or **core app flows**.
+- "What should we build next?", "what's missing for <audience>?", roadmap or sprint planning.
+- "We get visits but few signups", "users sign up and never come back", any conversion or activation problem.
+- "How do competitors do X?", "who are we up against?".
+- Any mention of 6to9.
+
+Not for: fixing a type error, renaming, refactoring, dependency bumps, or other work that doesn't change what users see or do.
+
+### Step 1: know which product this repo is
+
+1. Read `.6to9.json` at the repo root. If it holds `{"product_id": "<id>"}`, pass that id as `product` to every tool and skip the rest of this step.
+2. Otherwise call `list_my_products`.
+   - One product: use it, and write `.6to9.json` with its id.
+   - Several: find this repo's own site url in `package.json` `homepage`, deploy config (`vercel.json`, `netlify.toml`, `fly.toml`), README links, or the git remote. Suggest the product whose `url` matches, and **ask the user to confirm once**. A match is only a suggestion; never pick silently.
+3. Write `.6to9.json` as `{"product_id": "<id>"}`. The user may commit it or ignore it.
+
+If a tool answers CHOOSE A PRODUCT FIRST, do exactly this step, then retry with `product`.
+
+### Step 2: get the recommendation
+
+Call `recommend_features` with:
+
+- `area`: the part of the product in plain words ("landing hero", "signup", "onboarding", "pricing page", "core flows"). Omit it for "what should we build next?".
+- `goal` (optional): one or two sentences on the problem in the user's own words, with aggregate context only, for example "landing gets ~2k visits a week and ~1% sign up". It only reorders and explains the picks; the tool works fully without it.
+- `segment` (optional): an audience segment slug from `list_my_products`.
+
+You get 3–5 items, each with why it fits this product (which rivals ship it, the evidence, the audience it serves, whether it's already built or planned), and a lead pick with a short build-spec summary. Items the founder already chose or put in Build come first: respect that order.
+
+Show the user the top picks in a few lines each, and say which rivals back each one. If the user already asked you to build, go with the lead pick and say so.
+
+### Step 3: build from the spec
+
+Call `get_build_spec` with the item's `spec_id` and `building=true` when you are actually going to build it (this registers it in the team's Build tracker; use `building=false` to read or compare).
+
+The prompt it returns is the same one the founder gets from "Copy prompt" in the 6to9 portal, bound to the reference they picked. Treat it as the brief:
+
+- follow it, and keep its references (demo, visual, variant or competitor component) in view while you build;
+- adapt it to this codebase's stack and design system;
+- when you explain choices, cite only the evidence in the spec.
+
+For "what's the minimum to ship for <audience>?", call `get_mvp_brief(segment)`.
+
+### Step 4: close the loop
+
+After the change ships, offer to call `report_build_result(spec_id, metrics, note)`. Metrics are aggregates ("signup rate +12% over 2 weeks"), never user-level data. It's optional, and the team may have turned it off; relay what it answers.
+
+### Market updates
+
+At the start of a planning session, sprint or roadmap discussion, or when the user asks what changed, call `get_market_updates`. Summarize what matters for the work at hand. Use `mark_event` (seen, dismissed, acted) on events you've handled so the feed stays useful. Use `get_competitors` when you need the rival set itself.
+
+### Guardrails
+
+- **Aggregates only.** `goal`, `metrics` and `note` carry aggregate numbers and plain descriptions. Never user-level data, emails, secrets, keys or source code.
+- **Honest misses.** When a tool answers NOT RESEARCHED YET, tell the user plainly, point them to the portal link it gives, and never present the nearest items as research on the area they asked about. Starting new research from a coding agent is not available today.
+- **Cite only what came back.** Name only the rivals and evidence the tools returned. Never invent competitor behaviour or claim research that 6to9 didn't return.
+- **The founder's choices win.** Keep the tool's order; don't re-rank the founder's planned items below your own preference.
+- **Errors.** If a tool says the key was rejected, tell the user to check or mint a key at https://product.6to9.ai/settings/api-keys. If 6to9 is unreachable, carry on without it and say so.
+<!-- 6to9:end -->
