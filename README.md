@@ -80,6 +80,8 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `get_market_updates` | what changed in your market, plus the latest weekly brief |
 | `mark_event` | mark a market event seen, dismissed or acted on |
 | `report_build_result` | report what shipped and how it did |
+| `start_research` | get a quote for new research (product, audience, feature or angle), then start it |
+| `get_research_status` | check on research that's running in the background |
 
 ## Maintaining this repo
 

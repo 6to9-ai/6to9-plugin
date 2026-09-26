@@ -67,7 +67,8 @@ class GenerateTest(unittest.TestCase):
 
     def test_every_tool_is_named_in_the_guide(self):
         for tool in ("list_my_products", "recommend_features", "get_build_spec", "get_mvp_brief",
-                     "get_competitors", "get_market_updates", "mark_event", "report_build_result"):
+                     "get_competitors", "get_market_updates", "mark_event", "report_build_result",
+                     "start_research", "get_research_status"):
             self.assertIn(tool, self.body, tool)
 
 

@@ -1,0 +1,1 @@
+STOP and ask the user: "Research the Front-desk staff audience? It runs in the background, about 5-7 minutes, no charge today." Only if they explicitly say yes, call start_research(product="11111111-1111-1111-1111-111111111111", audience="front-desk-staff", confirm="rc_9f2a1b"). If they say no or don't answer, do not call it.

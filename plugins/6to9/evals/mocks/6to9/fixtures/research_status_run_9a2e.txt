@@ -1,0 +1,4 @@
+STATUS: running (run_id=run_9a2e).
+Progress: reading rival pricing pages 2/5.
+In progress; done in about 3 minutes.
+Check back in about 3 minutes; do not loop.
