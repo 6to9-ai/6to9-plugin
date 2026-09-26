@@ -1,7 +1,0 @@
-{
-  "run_id": "run_7c31",
-  "status": "queued",
-  "queue_position": 2,
-  "eta_minutes": 6,
-  "message": "Research queued. Call get_research_status(run_id=\"run_7c31\") in a few minutes for progress."
-}

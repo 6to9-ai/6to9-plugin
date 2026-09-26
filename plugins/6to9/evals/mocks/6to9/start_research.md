@@ -1,3 +1,1 @@
-```json
-{{file:fixtures/start_research_quote.json}}
-```
+{{file:fixtures/start_research_{input.confirm}.txt}}

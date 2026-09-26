@@ -1,8 +1,0 @@
-{
-  "run_id": "run_7c31",
-  "status": "running",
-  "stage": "reading rival pricing pages",
-  "queue_position": 0,
-  "eta_minutes": 3,
-  "message": "Still running. This takes several minutes — keep working on other things and check back later; don't poll in a loop."
-}
