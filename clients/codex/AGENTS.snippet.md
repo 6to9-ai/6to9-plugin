@@ -11,9 +11,10 @@ Workflow:
 3. Show the top picks briefly, or go straight to the lead pick if the user already asked you to build.
 4. `get_build_spec(spec_id, building=true)` when you build: follow its prompt and keep its references.
 5. After shipping, offer `report_build_result`.
+6. NOT RESEARCHED YET, or the user wants something new researched? Call `start_research` — it quotes first (what, ETA, cost, a confirm token); get the user's explicit yes on that quote before calling again with `confirm`. It runs in the background for several minutes, so check `get_research_status(run_id)` later rather than waiting.
 When a planning session starts, check `get_market_updates`.
 
-Rules: never send user-level data, secrets or code in `goal`. When a tool says NOT RESEARCHED YET, tell the user plainly and never present nearby items as research on that area. Cite only the rivals and evidence the tools returned.
+Rules: never send user-level data, secrets or code in `goal`. When a tool says NOT RESEARCHED YET, tell the user plainly and never present nearby items as research on that area. Never confirm a `start_research` quote without the user's explicit yes, and never reuse a confirm token for a different request. Cite only the rivals and evidence the tools returned.
 
 ### When to use it
 
@@ -71,6 +72,17 @@ For "what's the minimum to ship for <audience>?", call `get_mvp_brief(segment)`.
 
 After the change ships, offer to call `report_build_result(spec_id, metrics, note)`. Metrics are aggregates ("signup rate +12% over 2 weeks"), never user-level data. It's optional, and the team may have turned it off; relay what it answers.
 
+### Starting research
+
+Call `start_research(product, audience?, item?, focus?)` when a tool answers NOT RESEARCHED YET, or the user asks 6to9 to look into something new: a new audience, one feature, or "dig deeper" on an area it already researched.
+
+1. Call it without `confirm` first. It returns a quote — what will be researched, an ETA, and the cost (free today) — plus a confirm token good for that quote only. **Show the quote to the user and ask.**
+2. Only on their explicit yes to that quote, call `start_research` again with `confirm` set to the token it gave you. Never confirm on the user's behalf, and never reuse a token for a different audience, item or focus — get a fresh quote instead.
+3. If a quote says credits or payment are needed, send the user to the link it gives and stop there; don't retry.
+4. It queues and runs in the background for several minutes. Tell the user that, keep working on whatever else is in front of you, and check back with `get_research_status(run_id)` later — never block on it or poll it in a tight loop.
+5. Already researched and you just want a different cut? Pass `focus` (a specific angle, e.g. "dig deeper into pricing for teams", "these are too generic, want mobile onboarding") instead of re-running the same research.
+6. Once `get_research_status` reports done, read the results the normal way: `recommend_features` or `get_build_spec`.
+
 ### Market updates
 
 At the start of a planning session, sprint or roadmap discussion, or when the user asks what changed, call `get_market_updates`. Summarize what matters for the work at hand. Use `mark_event` (seen, dismissed, acted) on events you've handled so the feed stays useful. Use `get_competitors` when you need the rival set itself.
@@ -78,8 +90,8 @@ At the start of a planning session, sprint or roadmap discussion, or when the us
 ### Guardrails
 
 - **Aggregates only.** `goal`, `metrics` and `note` carry aggregate numbers and plain descriptions. Never user-level data, emails, secrets, keys or source code.
-- **Honest misses.** When a tool answers NOT RESEARCHED YET, tell the user plainly, point them to the portal link it gives, and never present the nearest items as research on the area they asked about. Starting new research from a coding agent is not available today.
+- **Honest misses.** When a tool answers NOT RESEARCHED YET, tell the user plainly and never present the nearest items as research on the area they asked about — then either start it yourself (see Starting research above) or point them to the portal link it gives.
 - **Cite only what came back.** Name only the rivals and evidence the tools returned. Never invent competitor behaviour or claim research that 6to9 didn't return.
 - **The founder's choices win.** Keep the tool's order; don't re-rank the founder's planned items below your own preference.
-- **Errors.** If a tool says the key was rejected, tell the user to check or mint a key at https://product.6to9.ai/settings/api-keys. If 6to9 is unreachable, carry on without it and say so.
+- **Errors.** If a tool says the key was rejected or lacks permission for research, tell the user to check or mint a key at https://product.6to9.ai/settings/api-keys. `start_research` may also say research is already running (check back later), the daily limit is reached, or the confirm token expired (call again without `confirm` and ask again — never retry the old token). If 6to9 is unreachable, carry on without it and say so.
 <!-- 6to9:end -->

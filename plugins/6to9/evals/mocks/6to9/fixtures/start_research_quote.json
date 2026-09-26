@@ -1,0 +1,11 @@
+{
+  "quote": {
+    "product": "Acme Scheduling",
+    "audience": "clinic-managers",
+    "what": "Fresh competitor research for Clinic managers: pricing, onboarding and hero pages across Calendly, Cal.com and 3 other rivals.",
+    "eta_minutes": 6,
+    "cost": "free today"
+  },
+  "confirm_token": "rc_9f2a1b",
+  "message": "Show this to the user and ask before confirming. Then call start_research again with confirm=rc_9f2a1b."
+}
