@@ -5,4 +5,4 @@ max_turns: 12
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Can you have 6to9 research clinic managers for us?
+Can you have 6to9 research front-desk staff for us?

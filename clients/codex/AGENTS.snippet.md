@@ -76,9 +76,13 @@ After the change ships, offer to call `report_build_result(spec_id, metrics, not
 
 When a tool says something isn't researched, or the user asks 6to9 to look into something new — a new audience, one feature, or "dig deeper" via focus — **offer to research it**; if they're interested, call `start_research(product, audience?, item?, focus?)` for a quote.
 
-1. Call it without `confirm` first. Depending on 6to9's state it can come back as: a quote — what will be researched, an ETA, and the cost (read it from the quote) — plus a confirm token good for that quote only; already researched (nothing to confirm; read that instead, or pass `focus` — e.g. "dig deeper into pricing for teams" — to dig into a different angle instead of re-running the same research); busy (already running elsewhere, no run_id yet — tell the user and don't start another run); or on a cooldown or over today's limit (tell the user; don't retry now).
+1. Call it without `confirm` first. Depending on 6to9's state it comes back as one of:
+   - a **quote** — what will be researched, an ETA, and the cost (read it from the quote) — plus a confirm token good for that quote only;
+   - **already researched** — nothing to confirm; read that instead, or pass `focus` (e.g. "dig deeper into pricing for teams") to dig into a different angle instead of re-running the same research;
+   - **busy** — already running elsewhere, no run_id yet; tell the user and don't start another run;
+   - **on a cooldown or over today's limit** — tell the user; don't retry now.
 2. **Show the quote to the user and ask.** Asking for research is not a yes; the yes must come after they've seen this quote — no answer is a no. Only then, call `start_research` again with `confirm` set to the token it gave you. Never confirm on the user's behalf, and never reuse a token for a different audience, item or focus — get a fresh quote instead. A token can also expire: call again WITHOUT `confirm` for a fresh quote, then ask again.
-3. If any answer points at a link, says the key lacks permission, or says credits or payment are needed, send the user there (or to mint a key at the portal) and stop; don't retry.
+3. If a `start_research` answer points at a link, says the key lacks permission, or says credits or payment are needed, send the user there (or to mint a key at the portal) and stop; don't retry.
 4. Once confirmed it queues and runs in the background for several minutes. Tell the user that, keep working on whatever else is in front of you, and check back with `get_research_status(run_id)` later — never block on it or poll it in a tight loop. Done → read the results the normal way with `recommend_features` or `get_build_spec`. Failed → tell the user; if they want to retry, start over from a fresh quote.
 
 ### Market updates
