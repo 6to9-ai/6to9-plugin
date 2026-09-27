@@ -15,7 +15,7 @@ Workflow:
 4. `get_build_spec(spec_id, building=true)` when you build: follow its prompt and keep its references.
 5. After shipping, offer `report_build_result`.
 6. NOT RESEARCHED YET, or the user wants something new researched? Offer to research it; when they say yes (or asked for it themselves), call `start_research` — it starts it. Only if 6to9 returns a quote (e.g. credits are needed) show it and ask before calling again with its `confirm`. It runs in the background for several minutes, so check `get_research_status(run_id)` later rather than waiting.
-7. The user wants the spec you're building from changed? `refine_spec(spec_id, instruction)` for its text ("too generic", "mobile-first"), `update_spec_visual` for the mock's look, `pick_spec_variant` for a listed variant; then re-read `get_build_spec`. `list_spec_history` / `revert_spec` undo.
+7. The user wants a 6to9 spec changed (the one you're building from, or one they name by its spec id or title)? `refine_spec(spec_id, instruction)` with their words — even when the change needs research 6to9 doesn't have yet (refine_spec starts it; don't offer `start_research` instead); `get_build_spec` first only if you're unsure which spec they mean. Use it for its text ("too generic", "mobile-first"), `update_spec_visual` for the mock's look, `pick_spec_variant` for a listed variant; then re-read `get_build_spec`. `list_spec_history` / `revert_spec` undo.
 When a planning session starts, check `get_market_updates`.
 
 Rules: never send user-level data, secrets or code in `goal`. When a tool says NOT RESEARCHED YET, tell the user plainly and never present nearby items as research on that area. Start research or change a spec only when the user asked or agreed — never speculatively. If 6to9 returns a quote, never confirm it without the user's explicit yes, and never reuse its token for a different request. Cite only the rivals and evidence the tools returned.
@@ -92,9 +92,9 @@ When a tool says something isn't researched, or the user asks 6to9 to look into 
 
 ## Refining a spec
 
-When the user wants the spec you're building from changed, change it in 6to9 — don't just edit your own copy:
+When the user wants a 6to9 spec changed — the one you're building from, or one they name by its spec id or title — change it in 6to9, don't just edit your own copy. A spec id or spec title in the request names a 6to9 spec even when no such page exists in this repo yet; call `get_build_spec` first if you're unsure which spec they mean.
 
-- **Text** ("too generic", "mobile-first", "shorter copy", "target teams"): `refine_spec(spec_id, instruction)` with the user's own words. 6to9 changes only what the instruction needs and keeps the rest. If it needs research 6to9 doesn't have, it starts that and returns a run_id — tell the user and check `get_research_status` later.
+- **Text** ("too generic", "mobile-first", "shorter copy", "target teams"): `refine_spec(spec_id, instruction)` with the user's own words. 6to9 changes only what the instruction needs and keeps the rest. Call it even when the change needs research 6to9 doesn't have (a rival or pattern it hasn't looked at): it starts that research itself and returns a run_id — tell the user it's running and check `get_research_status` later. Don't offer `start_research` for a spec change instead.
 - **The mock's look** ("darker", "CTA above the fold"): `update_spec_visual(spec_id, feedback)`.
 - **A listed variant**: `pick_spec_variant(spec_id, variant_key)` — free.
 - **Undo / go back**: `list_spec_history(spec_id)`, then `revert_spec(spec_id, revision=N)` or `(mock_version=N)` — free.
