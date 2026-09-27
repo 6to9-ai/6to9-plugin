@@ -586,7 +586,7 @@
     },
     {
       "name": "add_audience",
-      "description": "Use when the user asks 6to9 to research, or to track, an audience (ICP) that is not among the product's audiences in list_my_products — only on their ask, never on your own initiative. 6to9 first checks it against every audience it already has: if it is the same audience under another name, nothing is added and you are told which one it matches — offer that one instead. A new audience is added to the product and its slug is returned; it is NOT researched until you call start_research(audience=<slug>), which you do only if the user wants it researched.",
+      "description": "Use when the user asks 6to9 to research, or to track, an audience (ICP) that is not among the product's audiences in list_my_products — only on their ask, never on your own initiative. 6to9 first checks it against every audience it already has: if it is the same audience under another name, nothing is added and you are told which one it matches — offer that one instead. A new audience is live in the founder's 6to9 portal immediately and takes one of the product's 8 active audience slots — tell the user so; to undo it, they archive it in the portal. Its slug is returned; it is NOT researched until you call start_research(audience=<slug>), which you do only if the user wants it researched.",
       "inputSchema": {
         "properties": {
           "name": {
