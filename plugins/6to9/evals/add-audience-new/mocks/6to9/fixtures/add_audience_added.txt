@@ -1,0 +1,1 @@
+ADDED: "Solo physiotherapists" (slug solo-physiotherapists) is now one of this product's audiences. It is not researched yet — call start_research(product="11111111-1111-1111-1111-111111111111", audience="solo-physiotherapists") if the user wants it researched; do not start it on your own.

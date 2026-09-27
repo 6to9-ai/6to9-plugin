@@ -554,6 +554,81 @@
       }
     },
     {
+      "name": "show_idea",
+      "description": "Use when the user wants to SEE a feature idea or spec from 6to9 — 'show me this idea', 'what would it look like', 'is there a demo'. The same as the portal's 'Show me this idea' button: in one run 6to9 builds a working demo, a mock in the user's own product's style, and rival variants (how competitors ship it), keeping whichever of the three it could make. Takes a couple of minutes. It is paid work that counts toward 6to9's daily limits: call it only when the user asked to see it or said yes to your offer, and only once per ask. Afterwards, get_build_spec returns the updated spec with the new visuals.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id"
+        ],
+        "title": "show_ideaArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "add_audience",
+      "description": "Use when the user asks 6to9 to research, or to track, an audience (ICP) that is not among the product's audiences in list_my_products — only on their ask, never on your own initiative. 6to9 first checks it against every audience it already has: if it is the same audience under another name, nothing is added and you are told which one it matches — offer that one instead. A new audience is added to the product and its slug is returned; it is NOT researched until you call start_research(audience=<slug>), which you do only if the user wants it researched.",
+      "inputSchema": {
+        "properties": {
+          "name": {
+            "description": "The audience in the user's own words, e.g. 'K-12 teachers'. At most 80 characters.",
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Optional. One sentence on who they are or why they buy, in the user's words. At most 300 characters.",
+            "title": "Description"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "add_audienceArguments",
+        "type": "object"
+      }
+    },
+    {
       "name": "pick_spec_variant",
       "description": "Use when the user picks which reference variant a feature spec should build from. The variants are listed in get_build_spec's result under spec.spec.variants; pass one's evidence_key as variant_key (a working demo — an entry with a change_url — is a link, not pickable). Free — it only switches which variant the build prompt binds to.",
       "inputSchema": {
