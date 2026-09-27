@@ -1,0 +1,2 @@
+SHOWN: a working demo: https://demo.6to9.ai/d/live-hero; a new mock in your own product's style; 2 rival variants added.
+Call get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") for the updated spec (its visuals and variants) before building.
