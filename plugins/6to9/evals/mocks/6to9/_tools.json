@@ -481,7 +481,7 @@
     },
     {
       "name": "refine_spec",
-      "description": "Use when the user wants to change an existing 6to9 feature spec's TEXT — 'too generic', 'make it mobile-first', 'shorter copy', 'target teams'. 6to9 revises only what the instruction needs, keeps the rest, and saves the old version (revert_spec undoes it). Use the user's own words as the instruction. Not for the mock's look — use update_spec_visual for that. If the change needs research 6to9 does not have yet, this starts it and returns a run_id. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
+      "description": "Use when the user wants to change an existing 6to9 feature spec's TEXT — 'too generic', 'make it mobile-first', 'shorter copy', 'target teams'. 6to9 revises only what the instruction needs, keeps the rest, and saves the old version (revert_spec undoes it). Use the user's own words as the instruction. Not for the mock's look — use update_spec_visual for that. If the change needs research 6to9 does not have yet, this starts it and returns a run_id; if the spec itself is an unresearched idea, it changes nothing and says to research it. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -555,7 +555,7 @@
     },
     {
       "name": "pick_spec_variant",
-      "description": "Use when the user picks which reference variant a feature spec should build from (a variant_key listed in get_build_spec's spec). Free — it only switches which variant the build prompt binds to.",
+      "description": "Use when the user picks which reference variant a feature spec should build from. The variants are listed in get_build_spec's result under spec.spec.variants; pass one's evidence_key as variant_key (a working demo — an entry with a change_url — is a link, not pickable). Free — it only switches which variant the build prompt binds to.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -564,7 +564,7 @@
             "type": "string"
           },
           "variant_key": {
-            "description": "The variant's key, exactly as the spec lists it.",
+            "description": "The variant's evidence_key, exactly as spec.spec.variants lists it.",
             "title": "Variant Key",
             "type": "string"
           },
