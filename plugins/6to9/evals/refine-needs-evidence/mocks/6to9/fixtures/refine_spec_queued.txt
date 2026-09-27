@@ -1,0 +1,1 @@
+NEEDS NEW EVIDENCE: 6to9 is researching "Truity result-page paywall" first (run_id=r-truity), then rewrites the spec with this change. Tell the user it takes a few minutes, then get_research_status("r-truity") — check back, do not loop.

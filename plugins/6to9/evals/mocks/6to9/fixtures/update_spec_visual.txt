@@ -1,0 +1,2 @@
+NEW MOCK: Hero with live slots (darker) — https://product.6to9.ai/mock/spec-hero-v3.png
+Call get_build_spec(spec_id="spec-hero") to build from it.

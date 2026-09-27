@@ -1,0 +1,1 @@
+PICKED: the spec now builds from that variant. Call get_build_spec(spec_id="spec-hero").

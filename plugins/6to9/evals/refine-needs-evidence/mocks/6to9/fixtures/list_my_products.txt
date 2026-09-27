@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "Mindprint",
+      "url": "https://mindprint.example",
+      "segments": [
+        {
+          "slug": "career-changers",
+          "name": "Career changers",
+          "who_buys": "Mid-career professionals taking a personality test to pick a new direction",
+          "trigger": "Considering a career switch",
+          "pitch": "A test that tells you what to do next",
+          "research_state": "researched"
+        }
+      ]
+    }
+  ]
+}

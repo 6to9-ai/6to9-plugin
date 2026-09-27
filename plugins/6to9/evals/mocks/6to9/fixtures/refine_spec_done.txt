@@ -1,0 +1,4 @@
+REFINED (revision 2): changed detail, copy.
+Rewrote for a phone-first layout.
+Call get_build_spec(spec_id="spec-hero") for the updated build prompt before building.
+To undo: revert_spec(spec_id="spec-hero", revision=1).

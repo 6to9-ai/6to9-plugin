@@ -1,0 +1,2 @@
+RESEARCH QUEUED: run_id=r1 (starting now; done in about 4 minutes).
+Tell the user this takes several minutes, then get_research_status("r1") — check back in about 4 minutes; do not loop.

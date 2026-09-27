@@ -1,0 +1,9 @@
+{
+  "prompt": "Build 'Live availability in the hero' for Acme Scheduling, mobile-first. On a phone, the hero is a single column: headline, then a bookable availability widget showing the next 3 open slots as full-width tap targets, then a sticky 'Book a demo slot' button at the bottom of the viewport. On desktop, widen to the next 5 slots beside the headline. Reference: Calendly's homepage hero (live slot picker above the fold).",
+  "spec": {
+    "id": "spec-hero",
+    "title": "Live availability in the hero",
+    "surface": "landing",
+    "segment_slug": "clinic-managers"
+  }
+}
