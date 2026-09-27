@@ -1,0 +1,684 @@
+{
+  "tools": [
+    {
+      "name": "list_my_products",
+      "description": "Use once per repository, before the other 6to9 tools, when you do not yet know which 6to9 product this codebase is (there is no .6to9.json at the repo root). Lists the products on the user's 6to9 account with their site urls and audience segments. Match the repo's own site url against each product's url to SUGGEST one, confirm with the user once, then save {\"product_id\": \"<id>\"} as .6to9.json and pass it as `product` from then on. Each product lists its audiences (ICPs) with who buys, their trigger, the pitch and research_state — use these to infer which audience the current task serves.",
+      "inputSchema": {
+        "properties": {},
+        "title": "list_my_productsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "recommend_features",
+      "description": "Use when the user is working on, or asking what to do about, a product surface or growth problem: the landing page or hero, signup or login, onboarding, the pricing page, core app flows, what to build next, low conversion / activation / signups, or how competitors do something. Call it BEFORE designing or building such a change, even if nobody mentions 6to9. Returns 6to9's ranked recommendations for this product from its competitor research: 3-5 items, each with why it fits this product (which rivals ship it, the evidence, the audience segment, whether it is already built or planned), plus a lead pick with a build-spec summary. Items the founder already chose or put in Build rank first. With no segment, the answer also carries groups: the top picks for each audience. Next, call get_build_spec on the item you will build. If the area has not been researched it says so and lists the nearest research: relay that honestly.",
+      "inputSchema": {
+        "properties": {
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          },
+          "area": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The part of the product, in plain words: 'landing hero', 'signup', 'onboarding', 'pricing page', 'core flows'. Omit for the whole product.",
+            "title": "Area"
+          },
+          "segment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "An audience (ICP) slug from list_my_products or the segment in .6to9.json. Omit it to get recommendations grouped by audience.",
+            "title": "Segment"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Optional free text matched against item titles and reasons.",
+            "title": "Query"
+          },
+          "goal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Optional. One or two sentences on the problem in the user's own terms, with AGGREGATE context only, e.g. 'landing gets ~2k visits a week but ~1% sign up'. Never user-level data, secrets or code. Used only to order and explain the picks.",
+            "title": "Goal"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "maximum": 5,
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "How many items, 1-5 (default 5).",
+            "title": "Limit"
+          }
+        },
+        "title": "recommend_featuresArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_build_spec",
+      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the reference they picked) plus its competitor evidence and visuals. Build from the prompt and keep its references; cite only the evidence it contains. Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
+      "inputSchema": {
+        "properties": {
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          },
+          "spec_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The item's spec_id from recommend_features: the direct path.",
+            "title": "Spec Id"
+          },
+          "segment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Segment slug (with surface + slug).",
+            "title": "Segment"
+          },
+          "surface": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "landing | remix | onboarding | login | home | app_flows | app_must | app_delight",
+            "title": "Surface"
+          },
+          "slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The item's slug within its surface.",
+            "title": "Slug"
+          },
+          "rival": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Remix items only: the rival the item is filed under.",
+            "title": "Rival"
+          },
+          "building": {
+            "default": false,
+            "description": "true when you are fetching this TO BUILD IT (registers it in Build); false when reading or comparing.",
+            "title": "Building",
+            "type": "boolean"
+          }
+        },
+        "title": "get_build_specArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_mvp_brief",
+      "description": "Use when the user asks what the minimum is to ship for one audience segment, or is scoping a first version or MVP for a segment. Returns 6to9's composed MVP brief for that segment (the portal's 'Copy MVP brief'). segment is a segment slug from list_my_products.",
+      "inputSchema": {
+        "properties": {
+          "segment": {
+            "description": "Segment slug from list_my_products.",
+            "title": "Segment",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "segment"
+        ],
+        "title": "get_mvp_briefArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_competitors",
+      "description": "Use when the user asks who they are up against or how a competitor positions itself, or when you need the rival set to frame a product decision. Returns the product's watched competitors with their positioning and what 6to9 watches on each. Read-only. Each rival carries icps: the audience slugs it is the main alternative for.",
+      "inputSchema": {
+        "properties": {
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "title": "get_competitorsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_market_updates",
+      "description": "Use at the start of a planning session, sprint or roadmap discussion, or when the user asks what changed in their market. Returns recent competitor events (releases, site and pricing changes, founder posts, new entrants, narrative shifts, pain threads), newest first, plus the latest weekly market brief. Omit product to read across every product on the account. Mark events you have handled with mark_event.",
+      "inputSchema": {
+        "properties": {
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          },
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "ISO timestamp: only events observed after it.",
+            "title": "Since"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "release | site_change | pricing_change | founder_post | new_entrant | narrative_shift | pain_thread",
+            "title": "Kind"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "new | sent | seen | dismissed | acted",
+            "title": "Status"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "maximum": 200,
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Max events (default 50).",
+            "title": "Limit"
+          }
+        },
+        "title": "get_market_updatesArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "mark_event",
+      "description": "Use after you have handled a market event from get_market_updates, so the feed stays meaningful: seen (read it), dismissed (not relevant), acted (you or the user did something about it).",
+      "inputSchema": {
+        "properties": {
+          "event_id": {
+            "description": "The event's id from get_market_updates.",
+            "title": "Event Id",
+            "type": "string"
+          },
+          "status": {
+            "description": "seen | dismissed | acted",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "event_id",
+          "status"
+        ],
+        "title": "mark_eventArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "report_build_result",
+      "description": "Use after shipping something built from get_build_spec, and again once results exist, to report the outcome to the team's 6to9 Build tracker. Offer it to the user; reporting is optional. The team may have turned feedback off, in which case the answer says so. If the spec has no Build item yet, reporting creates one.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec_id get_build_spec / recommend_features returned.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "metrics": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Optional JSON object of AGGREGATE results, e.g. {\"signup_rate\": \"+12%\"}; <= 8 KB.",
+            "title": "Metrics"
+          },
+          "note": {
+            "default": "",
+            "description": "Optional short note: what shipped, caveats.",
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "spec_id"
+        ],
+        "title": "report_build_resultArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "start_research",
+      "description": "Use when recommend_features or get_build_spec say an area, audience or item is not researched, or the user asks 6to9 to research something — a new audience, one specific feature, or 'dig deeper into X' via focus. Call it only after the user asked for the research or said yes to your offer — it starts it (several minutes, in the background). Only when 6to9 returns a quote (e.g. credits are needed) must you show it and ask before calling again with confirm=<token> from THAT quote. It can also come back already queued/running (with a run_id for get_research_status), already researched, on a cooldown, or over today's cap — relay whichever it says. Render every field 6to9 sends back, including ones you don't recognise: if it points at a link or a cost, send the user there and do not retry. To change an existing spec's text, use refine_spec — it researches first by itself if it needs to.",
+      "inputSchema": {
+        "properties": {
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          },
+          "audience": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Research one audience (ICP) slug from list_my_products. Omit with `item` to research the whole product's segments.",
+            "title": "Audience"
+          },
+          "item": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Research one item by its spec_id (from recommend_features), e.g. to turn an idea into a build spec. Takes priority over audience when both are given.",
+            "title": "Item"
+          },
+          "focus": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Optional. What to dig into, in the user's own words, e.g. 'their pricing page redesign'. Trimmed to 500 chars.",
+            "title": "Focus"
+          },
+          "confirm": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Only the confirm token from a quote 6to9 returned for THIS SAME request, after the user said yes to that quote. Omit otherwise.",
+            "title": "Confirm"
+          }
+        },
+        "title": "start_researchArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_research_status",
+      "description": "Use to check on a research run started with start_research. Research takes several minutes; tell the user and check back — do not block or poll in a tight loop.",
+      "inputSchema": {
+        "properties": {
+          "run_id": {
+            "description": "The run_id start_research returned.",
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id"
+        ],
+        "title": "get_research_statusArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "refine_spec",
+      "description": "Use when the user wants to change an existing 6to9 feature spec's TEXT — 'too generic', 'make it mobile-first', 'shorter copy', 'target teams'. 6to9 revises only what the instruction needs, keeps the rest, and saves the old version (revert_spec undoes it). Use the user's own words as the instruction. Not for the mock's look — use update_spec_visual for that. If the change needs research 6to9 does not have yet, this starts it and returns a run_id; if the spec itself is an unresearched idea, it changes nothing and says to research it. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "instruction": {
+            "description": "What to change, in the user's own words. Trimmed to 500 chars.",
+            "title": "Instruction",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id",
+          "instruction"
+        ],
+        "title": "refine_specArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "update_spec_visual",
+      "description": "Use when the user wants the feature spec's MOCK (its generated image) to look different — 'darker', 'show the pricing table', 'less cluttered'. 6to9 makes a new mock from the current one plus the feedback and keeps the old one (revert_spec with mock_version goes back). Not for the spec's text — use refine_spec for that. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "feedback": {
+            "description": "What to change in the mock, in the user's own words.",
+            "title": "Feedback",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id",
+          "feedback"
+        ],
+        "title": "update_spec_visualArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "pick_spec_variant",
+      "description": "Use when the user picks which reference variant a feature spec should build from. The variants are listed in get_build_spec's result under spec.spec.variants; pass one's evidence_key as variant_key (a working demo — an entry with a change_url — is a link, not pickable). Free — it only switches which variant the build prompt binds to.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "variant_key": {
+            "description": "The variant's evidence_key, exactly as spec.spec.variants lists it.",
+            "title": "Variant Key",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id",
+          "variant_key"
+        ],
+        "title": "pick_spec_variantArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_spec_history",
+      "description": "Use when the user wants to see how a feature spec has changed, or before revert_spec to find the version to go back to. Lists the spec's text revisions (newest first) and its mock versions.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id"
+        ],
+        "title": "list_spec_historyArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "revert_spec",
+      "description": "Use when the user wants to undo a change to a feature spec — its text (revision=N) or its mock (mock_version=N). Free. Pass exactly one; list_spec_history shows the versions. A text revert is saved as a new revision, so it can itself be undone.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "revision": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The text revision to go back to (from list_spec_history).",
+            "title": "Revision"
+          },
+          "mock_version": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The mock version to show again (from list_spec_history).",
+            "title": "Mock Version"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id"
+        ],
+        "title": "revert_specArguments",
+        "type": "object"
+      }
+    }
+  ]
+}

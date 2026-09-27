@@ -1,0 +1,9 @@
+{
+  "prompt": "Build 'Result page hero' for Mindprint. After the test, show the user's type name and a one-paragraph summary above the fold, then the full breakdown by trait below it, with a 'Share my result' button.",
+  "spec": {
+    "id": "spec-hero",
+    "title": "Result page hero",
+    "surface": "app_flows",
+    "segment_slug": "career-changers"
+  }
+}

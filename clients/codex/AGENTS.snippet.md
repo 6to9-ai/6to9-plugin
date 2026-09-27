@@ -11,10 +11,11 @@ Workflow:
 3. Show the top picks briefly, or go straight to the lead pick if the user already asked you to build.
 4. `get_build_spec(spec_id, building=true)` when you build: follow its prompt and keep its references.
 5. After shipping, offer `report_build_result`.
-6. NOT RESEARCHED YET, or the user wants something new researched? Offer to research it; if they're interested, call `start_research` — it quotes first (what, ETA, the cost, a confirm token). The yes must come only after they've seen that quote; then call it again with `confirm`. It runs in the background for several minutes, so check `get_research_status(run_id)` later rather than waiting.
+6. NOT RESEARCHED YET, or the user wants something new researched? Offer to research it; when they say yes (or asked for it themselves), call `start_research` — it starts it. Only if 6to9 returns a quote (e.g. it will use credits) show it and ask before calling again with its `confirm`. It runs in the background, so check `get_research_status(run_id)` later rather than waiting.
+7. The user wants a 6to9 spec changed (the one you're building from, or one they name)? Pass a spec id they give straight to the tool; only a title needs `recommend_features(query=<title>)` first to find its spec_id. Its text ("too generic", "mobile-first") → `refine_spec(spec_id, instruction)` with their words, even when the change needs research 6to9 doesn't have yet (refine_spec starts it; don't offer `start_research` instead unless it answers NOT RESEARCHED YET). The mock's look → `update_spec_visual`. A listed variant → `pick_spec_variant`. Then re-read `get_build_spec`. `list_spec_history` / `revert_spec` undo.
 When a planning session starts, check `get_market_updates`.
 
-Rules: never send user-level data, secrets or code in `goal`. When a tool says NOT RESEARCHED YET, tell the user plainly and never present nearby items as research on that area. Never confirm a `start_research` quote without the user's explicit yes, and never reuse a confirm token for a different request. Cite only the rivals and evidence the tools returned.
+Rules: never send user-level data, secrets or code in `goal`. When a tool says NOT RESEARCHED YET, tell the user plainly and never present nearby items as research on that area. Start research or change a spec only when the user asked or agreed — never speculatively. If 6to9 returns a quote, never confirm it without the user's explicit yes, and never reuse its token for a different request. Cite only the rivals and evidence the tools returned.
 
 ### When to use it
 
@@ -74,16 +75,27 @@ After the change ships, offer to call `report_build_result(spec_id, metrics, not
 
 ### Starting research
 
-When a tool says something isn't researched, or the user asks 6to9 to look into something new — a new audience, one feature, or "dig deeper" via focus — **offer to research it**; if they're interested, call `start_research(product, audience?, item?, focus?)` for a quote.
+When a tool says something isn't researched, or the user asks 6to9 to look into something new — a new audience, one feature, or "dig deeper" via focus — **offer to research it**; when they say yes (or asked for it themselves), call `start_research(product, audience?, item?, focus?)`.
 
-1. Call it without `confirm` first. Depending on 6to9's state it comes back as one of:
-   - a **quote** — what will be researched, an ETA, and the cost (read it from the quote) — plus a confirm token good for that quote only;
-   - **already researched** — nothing to confirm; read that instead, or pass `focus` (e.g. "dig deeper into pricing for teams") to dig into a different angle instead of re-running the same research;
-   - **busy** — already running elsewhere, no run_id yet; tell the user and don't start another run;
-   - **on a cooldown or over today's limit** — tell the user; don't retry now.
-2. **Show the quote to the user and ask.** Asking for research is not a yes; the yes must come after they've seen this quote — no answer is a no. Only then, call `start_research` again with `confirm` set to the token it gave you. Never confirm on the user's behalf, and never reuse a token for a different audience, item or focus — get a fresh quote instead. A token can also expire: call again WITHOUT `confirm` for a fresh quote, then ask again.
-3. If a `start_research` answer points at a link, says the key lacks permission, or says credits or payment are needed, send the user there (or to mint a key at the portal) and stop; don't retry.
-4. Once confirmed it queues and runs in the background for several minutes. Tell the user that, keep working on whatever else is in front of you, and check back with `get_research_status(run_id)` later — never block on it or poll it in a tight loop. Done → read the results the normal way with `recommend_features` or `get_build_spec`. Failed → tell the user; if they want to retry, start over from a fresh quote.
+1. Call it once the user asked or agreed. It usually starts right away and returns a run_id. It can instead come back as:
+   - **already researched** — read that instead, or pass `focus` to dig into a different angle;
+   - **busy** — already running elsewhere; tell the user and don't start another;
+   - **on a cooldown or over today's limit** — tell the user; don't retry now;
+   - **a quote** — only when 6to9 needs approval (e.g. it will use credits): show it, and only after the user's explicit yes call again with that quote's `confirm`. Never reuse a token for a different request.
+2. **Never confirm a quote on the user's behalf.** No answer is a no. A token can also expire: call again WITHOUT `confirm` for a fresh quote, then ask again.
+3. If a `start_research` answer points at a link, says the key lacks permission, or says the account must add credits or pay first, send the user there (or to mint a key at the portal) and stop; don't retry.
+4. Once started (or confirmed) it queues and runs in the background. Tell the user that, keep working on whatever else is in front of you, and check back with `get_research_status(run_id)` later — never block on it or poll it in a tight loop. Done → read the results the normal way with `recommend_features` or `get_build_spec`. Failed → tell the user; if 6to9 says it can be retried and they want to, call the same tool again (`refine_spec` for a spec change, `start_research` otherwise).
+
+### Refining a spec
+
+When the user wants a 6to9 spec changed — the one you're building from, or one they name by its spec id or title — change it in 6to9, don't just edit your own copy. A spec id or spec title in the request names a 6to9 spec even when no such page exists in this repo yet. Pass a spec id straight to the tool below; only when you have just a title, find its spec_id with `recommend_features(query=<title>)` first.
+
+- **Text** ("too generic", "mobile-first", "shorter copy", "target teams"): `refine_spec(spec_id, instruction)` with the user's own words. Call it even when the change needs research 6to9 doesn't have (a rival or pattern it hasn't looked at): it starts that research itself and returns a run_id — tell the user it's running and check `get_research_status` later. Don't offer `start_research` for a spec change instead — unless `refine_spec` answers NOT RESEARCHED YET (an idea 6to9 hasn't researched has no spec to change): then offer the research it names, and refine once it lands.
+- **The mock's look** ("darker", "CTA above the fold"): `update_spec_visual(spec_id, feedback)`.
+- **A listed variant**: `pick_spec_variant(spec_id, variant_key)` — the variant's `evidence_key` as `get_build_spec` lists it under `spec.spec.variants`, copied exactly.
+- **Undo / go back**: `list_spec_history(spec_id)`, then `revert_spec(spec_id, revision=N)` or `(mock_version=N)`.
+
+After any change, call `get_build_spec(spec_id)` again before building: the build prompt changed. Only change a spec when the user asked for it. If a change times out, call `list_spec_history` before trying again — it may already have landed.
 
 ### Market updates
 
@@ -91,7 +103,7 @@ At the start of a planning session, sprint or roadmap discussion, or when the us
 
 ### Guardrails
 
-- **Aggregates only.** `goal`, `metrics`, `note` and `focus` carry aggregate numbers and plain descriptions. Never user-level data, emails, secrets, keys or source code.
+- **Aggregates only.** `goal`, `metrics`, `note`, `focus`, `instruction` and `feedback` carry aggregate numbers and plain descriptions. Never user-level data, emails, secrets, keys or source code.
 - **Honest misses.** When a tool answers NOT RESEARCHED YET, tell the user plainly and never present the nearest items as research on the area they asked about — then either offer to start it (see Starting research) or point them to the portal link it gives.
 - **Cite only what came back.** Name only the rivals and evidence the tools returned. Never invent competitor behaviour or claim research that 6to9 didn't return.
 - **The founder's choices win.** Keep the tool's order; don't re-rank the founder's planned items below your own preference.

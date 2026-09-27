@@ -80,8 +80,13 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `get_market_updates` | what changed in your market, plus the latest weekly brief |
 | `mark_event` | mark a market event seen, dismissed or acted on |
 | `report_build_result` | report what shipped and how it did |
-| `start_research` | get a quote for new research (product, audience, feature or angle), then start it |
+| `start_research` | start new research (product, audience, feature or angle); only asks first if 6to9 needs approval |
 | `get_research_status` | check on research that's running in the background |
+| `refine_spec` | change a build spec's text ("too generic", "mobile-first") |
+| `update_spec_visual` | change how a spec's mock looks ("darker", "CTA above the fold") |
+| `pick_spec_variant` | switch which listed variant a spec builds from |
+| `list_spec_history` | see a spec's past text revisions and mock versions |
+| `revert_spec` | undo a spec's text or mock to an earlier version |
 
 ## Maintaining this repo
 

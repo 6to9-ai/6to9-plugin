@@ -1,1 +1,1 @@
-{{file:fixtures/start_research_{input.confirm}.txt}}
+{{file:fixtures/start_research_queued.txt}}

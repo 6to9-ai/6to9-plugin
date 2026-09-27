@@ -1,0 +1,8 @@
+TEXT REVISIONS (newest first):
+- v2 (agent): make it mobile-first — changed detail, copy
+- v1 (portal): shorter copy — changed copy
+- v0 (original)
+MOCK VERSIONS (oldest first):
+- mock v1: Hero with live slots
+- mock v2 (current): darker background
+Undo with revert_spec(spec_id, revision=N) or (mock_version=N).
