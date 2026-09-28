@@ -1,1 +1,1 @@
-NO ARTIFACTS YET: this spec has only its text. show_idea(spec_id="aaaaaaaa-0000-0000-0000-000000000001") makes a working demo, a mock and rival variants (paid, a couple of minutes) — only if the user asks to see it.
+NO ARTIFACTS YET: this spec has only its text. show_idea(spec_id="aaaaaaaa-0000-0000-0000-000000000001") makes a working demo, a mock and rival variants (paid, a couple of minutes). If the user asked to see the idea, that is the ask — call it, don't ask again; never call it on your own.
