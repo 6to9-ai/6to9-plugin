@@ -828,7 +828,7 @@
     },
     {
       "name": "list_artifacts",
-      "description": "Use to see what a 6to9 feature spec can be built from, or before changing, picking or opening one of its visuals. A spec is its text plus ARTIFACTS, ranked best first: a working demo (live HTML), the generated mock (an image), rival components (captures of what rivals ship — evidence, never edited), restyles, and our own versions derived from a rival. Each has an artifact_id, whether it is the founder's pick, and whether it is OUTDATED (made from older spec text — don't build from it until 6to9 has refreshed it). Free and read-only; opening an OUTDATED one with get_artifact starts its refresh (paid, once per text change).",
+      "description": "Use to see what a 6to9 feature spec can be built from, or before changing, picking or opening one of its visuals. A spec is its text plus ARTIFACTS, ranked best first: a working demo (live HTML), the generated mock (an image), rival components (captures of what rivals ship — evidence, never edited), restyles, and our own versions derived from a rival. Each has an artifact_id, whether it is the founder's pick, and whether it is OUTDATED (made from older spec text — don't build from it until 6to9 has refreshed it). One marked 'chosen on purpose' is an earlier version the founder went back to — build from it; 6to9 leaves it as it is. Free and read-only; opening an OUTDATED one with get_artifact starts its refresh (paid, once per text change).",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -859,7 +859,7 @@
     },
     {
       "name": "get_artifact",
-      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. An HTML artifact (a working demo, or our own version of a rival component) returns its full source to port into this repo; an image returns its URL. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. Free, except that opening an OUTDATED artifact starts its refresh (paid, once per text change).",
+      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. An HTML artifact (a working demo, or our own version of a rival component) returns its full source to port into this repo; an image returns its URL. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. One marked 'chosen on purpose' is an earlier version the founder went back to — build from it (no refresh starts). Free, except that opening an OUTDATED artifact starts its refresh (paid, once per text change).",
       "inputSchema": {
         "properties": {
           "spec_id": {
