@@ -1,0 +1,5 @@
+REFINED: Working demo is now v3: https://agents.6to9.ai/lp/liveHero1.
+A look-only change: the spec text is unchanged.
+Darkened the palette and raised the contrast.
+Call get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") before building.
+To undo it: revert_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000001", version=2).

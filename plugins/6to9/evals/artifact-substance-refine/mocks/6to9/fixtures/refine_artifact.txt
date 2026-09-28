@@ -1,0 +1,6 @@
+REFINED: Working demo is now v3: https://agents.6to9.ai/lp/liveHero1.
+This changes the feature itself, so 6to9 also updated the spec text (revision 3: detail, acceptance). To undo the text change: revert_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001", revision=2) — reverting the artifact alone keeps the new text.
+The hero now offers the next 3 open slots instead of 5.
+Now refreshing from the new text: Generated mock.
+Call get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") before building.
+To undo this artifact's change: revert_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000001", version=2).
