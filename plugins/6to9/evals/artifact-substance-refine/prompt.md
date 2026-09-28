@@ -5,4 +5,4 @@ max_turns: 14
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-The working demo for the "Live availability in the hero" spec (aaaaaaaa-0000-0000-0000-000000000001) lists five open slots — cap it at three times.
+The working demo for the "Live availability in the hero" spec (aaaaaaaa-0000-0000-0000-000000000001) lists five open slots — cap it at three slots.
