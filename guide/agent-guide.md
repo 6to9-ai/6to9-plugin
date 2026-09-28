@@ -66,9 +66,9 @@ Show the user the top picks in a few lines each, and say which rivals back each 
 
 Call `get_build_spec` with the item's `spec_id` and `building=true` when you are actually going to build it (this registers it in the team's Build tracker; use `building=false` to read or compare).
 
-The prompt it returns is the same one the founder gets from "Copy prompt" in the 6to9 portal, bound to the reference they picked. Treat it as the brief:
+The prompt it returns is the same one the founder gets from "Copy prompt" in the 6to9 portal, bound to the artifact they picked. Treat it as the brief:
 
-- follow it, and keep its references (demo, visual, variant or competitor component) in view while you build;
+- follow it, and keep the artifact it binds in view while you build;
 - adapt it to this codebase's stack and design system;
 - when you explain choices, cite only the evidence in the spec.
 
@@ -110,7 +110,7 @@ When the user wants to see what an idea or spec would look like — "show me thi
 
 ## A spec's artifacts
 
-A 6to9 spec is its text plus artifacts, all equal: a **working demo** (a live HTML page), the **generated mock** (an image), **rival components** (what rivals actually ship — evidence, never edited), restyles of a rival component, and **our own versions** made from a rival component. Operate on artifacts; 6to9 keeps them consistent with the text.
+A 6to9 spec is its text plus artifacts: a **working demo** (a live HTML page), the **generated mock** (an image), **rival components** (what rivals actually ship — evidence, never edited), restyles of a rival component, and **our own versions** made from a rival component. Operate on artifacts; 6to9 keeps them consistent with the text.
 
 - **See them:** `list_artifacts(spec_id)` (free) — ranked, with ids, the founder's pick, and which are outdated. `get_build_spec` shows the same list as `build_options`.
 - **Open one:** `get_artifact(spec_id, artifact_id)` — a demo or our own HTML version returns its source (reference code: port its structure, interaction and copy into this repo; don't paste the file); an image returns its URL. Free, except that opening an OUTDATED artifact starts its refresh (paid, once per text change).
@@ -118,10 +118,10 @@ A 6to9 spec is its text plus artifacts, all equal: a **working demo** (a live HT
 - **Choose one:** `pick_artifact(spec_id, artifact_id)` — then `get_build_spec` builds from it. Free, except that picking an OUTDATED artifact starts its refresh (paid, once per text change).
 - **OUTDATED** means made from older spec text; never build from it as if it were current, and tell the user. The answer says why, e.g.:
   - *refreshing* — 6to9 is making a new version from the current text: build from the prompt's text or check back in a few minutes.
-  - *a version made from the current text exists* (e.g. *on purpose — reverted from vN*: someone reverted to an older version) — if the user wants the current one, `revert_spec(spec_id, artifact_id=…, version=N)` shows it again for free — don't refine to get there.
+  - *a version made from the current text exists* (e.g. *on purpose — reverted from vN*: someone reverted to an older version) — if the user wants the version made from the current text, `revert_spec(spec_id, artifact_id=…, version=N)` shows it again for free — don't refine to get there.
   - *not refreshing (reason)* — 6to9 won't refresh it now; tell the user the reason and build from the prompt's text.
 - **Switched back:** when the spec text returns to an earlier text, 6to9 shows the artifact versions made from that text again, for free: "6to9 switched back to vN, made from the current text — nothing regenerated."
-- **Undo:** `list_spec_history(spec_id)` lists the text revisions and every artifact's versions; `revert_spec(spec_id, artifact_id=…, version=N)` shows an earlier version again (free). When a `refine_artifact` also changed the text, undo the text with `revert_spec(spec_id, revision=N-1)`; reverting the artifact alone keeps the new text.
+- **Undo:** `list_spec_history(spec_id)` lists the text revisions and every artifact's versions; `revert_spec(spec_id, artifact_id=…, version=N)` shows an earlier version again (free). When a `refine_artifact` also changed the text, undo the text with `revert_spec(spec_id, revision=…)` — the revision before the one the refine answer names; the answer gives the exact call; reverting the artifact alone keeps the new text.
 - **Busy:** something (a refresh, another change, a research run) is working on that artifact or spec right now. Tell the user and check back with `list_artifacts` later — don't retry in a loop.
 
 `update_spec_visual`, `pick_spec_variant` and `get_demo_html` still work; prefer the artifact tools.
