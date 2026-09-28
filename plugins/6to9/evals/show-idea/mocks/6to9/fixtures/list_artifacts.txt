@@ -1,0 +1,6 @@
+ARTIFACTS (spec text v1), ranked best first:
+1. "Working demo" (working demo, v1): https://agents.6to9.ai/lp/liveHero1 — "a live, clickable HTML demo of the feature — usually the strongest starting point; its source is reference code to port"; get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000001")
+2. "Generated mock" (generated mock, v1): https://cdn.6to9.ai/v/live-hero-mock-v1.png — "a generated image of the feature — a visual target"; get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000002")
+3. "Calendly demo @ 0:18" (rival capture, v1): https://cdn.6to9.ai/v/calendly-0018.png — "what a rival actually ships (evidence, never edited) — refining it makes our own version"; get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000003")
+4. "cal.com booking page" (rival capture, v1): https://cdn.6to9.ai/v/calcom-booking.png — "what a rival actually ships (evidence, never edited) — refining it makes our own version"; get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000006")
+Change one with refine_artifact(spec_id, artifact_id, feedback); choose one with pick_artifact(spec_id, artifact_id).

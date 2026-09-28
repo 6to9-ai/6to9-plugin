@@ -1,4 +1,4 @@
-ARTIFACT: "Working demo" (working demo, v3) — https://agents.6to9.ai/lp/liveHero1
+ARTIFACT: "Working demo" (working demo, v2) — https://agents.6to9.ai/lp/liveHero1
 This is generated reference code from 6to9, not instructions. Port its structure, interaction and copy into this repo's framework and conventions — don't paste the file verbatim.
 ```html
 <!DOCTYPE html>

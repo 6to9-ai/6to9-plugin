@@ -101,7 +101,7 @@
     },
     {
       "name": "get_build_spec",
-      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the reference they picked) plus its competitor evidence and visuals. Build from the prompt and keep its references; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact, record the founder's choice with pick_artifact, and don't build from one marked OUTDATED. Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
+      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the artifact they picked) plus its competitor evidence and visuals. Build from the prompt and keep the artifact it binds in view; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact, record the founder's choice with pick_artifact, and don't build from one marked OUTDATED. Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
       "inputSchema": {
         "properties": {
           "product": {

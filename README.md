@@ -66,15 +66,21 @@ The first time, the agent asks which 6to9 product this repo is and saves the ans
 
 ## What your agent sends
 
-Only what a tool call needs: your product id, the area you're working on, and optionally a one-line goal in your words. When you report back after shipping, that's `report_build_result`'s `metrics` (aggregate numbers, e.g. "signup rate +12% over 2 weeks") and `note` — never user-level data. The guidance tells agents to send aggregate numbers only everywhere (never user-level data, secrets or code), and every tool works without a goal or a build report.
+Only what a tool call needs: your product id, the area you're working on, and optionally a one-line goal in your words. When you ask for a change, your words go as free text: `refine_artifact`'s `feedback` and `refine_spec`'s `instruction` (each up to 500 characters). When you report back after shipping, that's `report_build_result`'s `metrics` (aggregate numbers, e.g. "signup rate +12% over 2 weeks") and `note` — never user-level data. The guidance tells agents to send aggregate numbers only everywhere (never user-level data, secrets or code), and every tool works without a goal or a build report.
 
 ## Tools
 
 | Tool | Use it for |
 |---|---|
 | `list_my_products` | which 6to9 product this repo is (once per repo) |
+| `add_audience` | add an audience (a customer segment) to your product in 6to9 |
 | `recommend_features` | what to build or change, ranked, with why and which rivals back it |
-| `get_build_spec` | the build-ready prompt for one item, as the portal's "Copy prompt" gives it |
+| `get_build_spec` | the build-ready prompt for one item, as the portal's "Copy prompt" gives it, plus the artifacts it can be built from |
+| `show_idea` | see what an idea would look like: a working demo, a mock and how rivals ship it |
+| `list_artifacts` | a spec's artifacts (working demo, mock, rival components, our own versions), ranked, with which is picked or outdated |
+| `get_artifact` | open one artifact: a demo's HTML source to port, or an image |
+| `refine_artifact` | change one artifact ("darker", "only 3 slots", "our own version of this rival's picker"); 6to9 updates the spec text too when the change is to the feature itself |
+| `pick_artifact` | choose which artifact a spec builds from |
 | `get_mvp_brief` | the minimum to ship for one audience segment |
 | `get_competitors` | who you're up against |
 | `get_market_updates` | what changed in your market, plus the latest weekly brief |
@@ -83,10 +89,11 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `start_research` | start new research (product, audience, feature or angle); only asks first if 6to9 needs approval |
 | `get_research_status` | check on research that's running in the background |
 | `refine_spec` | change a build spec's text ("too generic", "mobile-first") |
-| `update_spec_visual` | change how a spec's mock looks ("darker", "CTA above the fold") |
-| `pick_spec_variant` | switch which listed variant a spec builds from |
-| `list_spec_history` | see a spec's past text revisions and mock versions |
-| `revert_spec` | undo a spec's text or mock to an earlier version |
+| `list_spec_history` | see a spec's past text revisions and each artifact's versions |
+| `revert_spec` | undo a spec's text, or show an earlier version of an artifact |
+| `update_spec_visual` | deprecated — prefer `refine_artifact` on the mock |
+| `pick_spec_variant` | deprecated — prefer `pick_artifact` |
+| `get_demo_html` | deprecated — prefer `get_artifact` on the demo |
 
 ## Maintaining this repo
 
