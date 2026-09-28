@@ -1,5 +1,6 @@
 ---
-type: tool_used
-tool: mcp__plugin_6to9_6to9__get_demo_html
-min: 1
+type: regex
+target: trace
+pattern: '"name"\s*:\s*"mcp__plugin_6to9_6to9__(get_artifact|get_demo_html)"'
+flags: ''
 ---

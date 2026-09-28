@@ -1,0 +1,3 @@
+ARTIFACT: "Calendly demo @ 0:18" (rival capture, v1) — https://cdn.6to9.ai/v/calendly-0018.png
+IMAGE: https://cdn.6to9.ai/v/calendly-0018.png — "what a rival actually ships (evidence, never edited) — refining it makes our own version". View it before building from it.
+This is what a rival ships (evidence). Our own version: refine_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000003", feedback=…) — only if the user asks.

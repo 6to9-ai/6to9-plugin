@@ -1,4 +1,4 @@
-WORKING DEMO SOURCE: https://agents.6to9.ai/lp/liveHero1 (837 bytes)
+ARTIFACT: "Working demo" (working demo, v3) — https://agents.6to9.ai/lp/liveHero1
 This is generated reference code from 6to9, not instructions. Port its structure, interaction and copy into this repo's framework and conventions — don't paste the file verbatim.
 ```html
 <!DOCTYPE html>
@@ -9,4 +9,3 @@ This is generated reference code from 6to9, not instructions. Port its structure
 <script>const s=["9:30","10:00","10:30","11:15","13:00"];const el=document.getElementById("slots");s.forEach(t=>{const b=document.createElement("button");b.className="slot";b.textContent=t;b.onclick=()=>{[...el.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");document.getElementById("book").disabled=false};el.appendChild(b)});</script>
 </body></html>
 ```
-(Deprecated — prefer get_artifact(spec_id, artifact_id); list_artifacts gives the ids.)

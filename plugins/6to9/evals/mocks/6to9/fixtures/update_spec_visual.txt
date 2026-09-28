@@ -1,2 +1,3 @@
-NEW MOCK: Hero with live slots (darker) — https://product.6to9.ai/mock/spec-hero-v3.png
+NEW MOCK: Generated mock v3 — https://cdn.6to9.ai/v/live-hero-mock-v3.png
 Call get_build_spec(spec_id="spec-hero") to build from it.
+(Deprecated — prefer refine_artifact(spec_id="spec-hero", artifact_id="cccccccc-0000-0000-0000-000000000002", feedback=…).)

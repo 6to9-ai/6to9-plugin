@@ -5,4 +5,4 @@ max_turns: 14
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-In that spec's demo (aaaaaaaa-0000-0000-0000-000000000001), only show the next 3 slots, not 5.
+The working demo for the "Live availability in the hero" spec (aaaaaaaa-0000-0000-0000-000000000001) lists five open slots — cap it at three times.

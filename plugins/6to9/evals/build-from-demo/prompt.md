@@ -1,5 +1,5 @@
 ---
-description: The user asks to build a 6to9 spec from its working demo. Should fetch the demo's source with get_demo_html (not rely on the URL or a screenshot) and treat it as reference code to port.
+description: The user asks to build a 6to9 spec from its working demo. Should fetch the demo's source with get_artifact (or the deprecated get_demo_html) — not rely on the URL or a screenshot — and treat it as reference code to port.
 tags: [should-trigger]
 max_turns: 14
 allowed_tools: [Read, Glob, Grep, Skill]

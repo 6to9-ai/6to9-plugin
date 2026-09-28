@@ -1,5 +1,5 @@
 ---
-description: The user names the deprecated update_spec_visual tool. It still works: should call it and relay the new mock and its URL — not report an error or that the tool is gone.
+description: "The user names the deprecated update_spec_visual tool, which still works. Should call it and relay the new mock and its URL — not report an error or that the tool is gone."
 tags: [should-trigger]
 max_turns: 12
 allowed_tools: [Read, Glob, Grep, Skill]
