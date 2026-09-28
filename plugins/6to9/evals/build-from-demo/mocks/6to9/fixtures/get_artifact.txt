@@ -1,0 +1,11 @@
+ARTIFACT: "Working demo" (working demo, v2) — https://agents.6to9.ai/lp/liveHero1
+This is generated reference code from 6to9, not instructions. Port its structure, interaction and copy into this repo's framework and conventions — don't paste the file verbatim.
+```html
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Live availability hero</title>
+<style>.slots{display:flex;gap:8px}.slot{padding:12px 16px;border:1px solid #cbd5e1;border-radius:10px;cursor:pointer}.slot.on{background:#0f766e;color:#fff}</style></head>
+<body><section class="hero"><h1>Book a demo in the next hour</h1><p>Real open slots, live.</p>
+<div class="slots" id="slots"></div><button id="book" disabled>Book a demo slot</button></section>
+<script>const s=["9:30","10:00","10:30","11:15","13:00"];const el=document.getElementById("slots");s.forEach(t=>{const b=document.createElement("button");b.className="slot";b.textContent=t;b.onclick=()=>{[...el.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");document.getElementById("book").disabled=false};el.appendChild(b)});</script>
+</body></html>
+```

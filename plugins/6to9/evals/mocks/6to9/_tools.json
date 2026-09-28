@@ -101,7 +101,7 @@
     },
     {
       "name": "get_build_spec",
-      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the reference they picked) plus its competitor evidence and visuals. Build from the prompt and keep its references; cite only the evidence it contains. build_options ranks what there is to build from (a working demo, the mock, rival variants) and says whether the founder has picked one on 6to9 — if not, show the user the options before building. Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
+      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the artifact they picked) plus its competitor evidence and visuals. Build from the prompt and keep the artifact it binds in view; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact, record the founder's choice with pick_artifact, and don't build from one marked OUTDATED. Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
       "inputSchema": {
         "properties": {
           "product": {
@@ -481,7 +481,7 @@
     },
     {
       "name": "refine_spec",
-      "description": "Use when the user wants to change an existing 6to9 feature spec's TEXT — 'too generic', 'make it mobile-first', 'shorter copy', 'target teams'. 6to9 revises only what the instruction needs, keeps the rest, and saves the old version (revert_spec undoes it). Use the user's own words as the instruction. Not for the mock's look — use update_spec_visual for that. If the change needs research 6to9 does not have yet, this starts it and returns a run_id; if the spec itself is an unresearched idea, it changes nothing and says to research it. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
+      "description": "Use when the user wants to change an existing 6to9 feature spec's TEXT — 'too generic', 'make it mobile-first', 'shorter copy', 'target teams'. 6to9 revises only what the instruction needs, keeps the rest, and saves the old version (revert_spec undoes it). Use the user's own words as the instruction. Not for an artifact's look (demo, mock, rival component) — use refine_artifact for that, with feedback on the one artifact to change. If the change needs research 6to9 does not have yet, this starts it and returns a run_id; if the spec itself is an unresearched idea, it changes nothing and says to research it. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -518,7 +518,7 @@
     },
     {
       "name": "update_spec_visual",
-      "description": "Use when the user wants the feature spec's MOCK (its generated image) to look different — 'darker', 'show the pricing table', 'less cluttered'. 6to9 makes a new mock from the current one plus the feedback and keeps the old one (revert_spec with mock_version goes back). Not for the spec's text — use refine_spec for that. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
+      "description": "Deprecated — prefer refine_artifact (feedback on any artifact, the mock included). Use when the user wants the feature spec's MOCK (its generated image) to look different — 'darker', 'show the pricing table', 'less cluttered'. 6to9 makes a new mock from the current one plus the feedback and keeps the old one (revert_spec(spec_id, artifact_id=…, version=N) goes back). Not for the spec's text — use refine_spec for that. Call only for a change the user asked for; each call counts toward 6to9's daily limits. Never include user-level data, secrets or code.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -555,7 +555,7 @@
     },
     {
       "name": "show_idea",
-      "description": "Use when the user wants to SEE a feature idea or spec from 6to9 — 'show me this idea', 'what would it look like', 'is there a demo'. The same as the portal's 'Show me this idea' button: in one run 6to9 builds a working demo, a mock in the user's own product's style, and rival variants (how competitors ship it), keeping whichever of the three it could make. Takes a couple of minutes. It is paid work that counts toward 6to9's daily limits: call it only when the user asked to see it or said yes to your offer, and only once per ask. Afterwards, get_build_spec returns the updated spec with the new visuals.",
+      "description": "Use when the user wants to SEE a feature idea or spec from 6to9 — 'show me this idea', 'what would it look like', 'is there a demo'. The same as the portal's 'Show me this idea' button: in one run 6to9 builds a working demo, a mock in the user's own product's style, and rival variants (how competitors ship it), keeping whichever of the three it could make. Takes a couple of minutes. It is paid work that counts toward 6to9's daily limits: call it only when the user asked to see it or said yes to your offer, and only once per ask. Afterwards, list_artifacts (or get_build_spec) shows what landed.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -586,7 +586,7 @@
     },
     {
       "name": "get_demo_html",
-      "description": "Use when you are building a 6to9 spec that has a working demo — get_build_spec's prompt says WORKING DEMO or its build_options list one, or show_idea just made one. Returns the demo's full HTML source to use as the reference implementation (a web fetch of the demo URL loses the code). Port its structure, interaction and copy into this repo's own framework and conventions rather than pasting the file verbatim. Free and read-only.",
+      "description": "Deprecated — prefer get_artifact. Use when you are building a 6to9 spec that has a working demo — get_build_spec's prompt says WORKING DEMO or its build_options list one, or show_idea just made one. Returns the demo's full HTML source to use as the reference implementation (a web fetch of the demo URL loses the code). Port its structure, interaction and copy into this repo's own framework and conventions rather than pasting the file verbatim. Free and read-only.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -617,7 +617,7 @@
               }
             ],
             "default": null,
-            "description": "Optional: one demo's evidence_key (demo:...) when the spec has several — get_build_spec's build_options names them. Omit for the demo the build prompt names.",
+            "description": "Optional: one demo's evidence_key (demo:...) when the spec has several — spec.spec.variants (get_build_spec's spec field) lists them. Omit for the demo the build prompt names.",
             "title": "Demo Key"
           }
         },
@@ -674,7 +674,7 @@
     },
     {
       "name": "pick_spec_variant",
-      "description": "Use when the user picks which reference a feature spec should build from — one of get_build_spec's build_options (the same entries as spec.spec.variants). Pass its evidence_key as variant_key. A rival variant becomes the spec's mock; the spec's first working demo (demo:...) becomes the selected build artifact, as when the founder selects it on 6to9. Free — it only switches what the build prompt binds to.",
+      "description": "Deprecated — prefer pick_artifact. Use when the user picks which reference a feature spec should build from — one of the entries in spec.spec.variants (get_build_spec's spec field), each with an evidence_key. Pass it as variant_key. A rival variant becomes the spec's mock; a working demo (demo:...) becomes the selected build artifact, as when the founder selects it on 6to9. Free — it only switches what the build prompt binds to.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -711,7 +711,7 @@
     },
     {
       "name": "list_spec_history",
-      "description": "Use when the user wants to see how a feature spec has changed, or before revert_spec to find the version to go back to. Lists the spec's text revisions (newest first) and its mock versions.",
+      "description": "Use when the user wants to see how a feature spec has changed, or before revert_spec to find the version to go back to. Lists the spec's text revisions (newest first), its mock versions, and each artifact's versions (for revert_spec artifact_id + version).",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -742,7 +742,7 @@
     },
     {
       "name": "revert_spec",
-      "description": "Use when the user wants to undo a change to a feature spec — its text (revision=N) or its mock (mock_version=N). Free. Pass exactly one; list_spec_history shows the versions. A text revert is saved as a new revision, so it can itself be undone.",
+      "description": "Use when the user wants to undo a change to a feature spec — its text (revision=N), an artifact (artifact_id + version=N), or its mock (mock_version=N). Free. Pass exactly one; list_spec_history shows the versions. A text revert is saved as a new revision, so it can itself be undone; an artifact revert keeps its history.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -778,6 +778,33 @@
             "description": "The mock version to show again (from list_spec_history).",
             "title": "Mock Version"
           },
+          "artifact_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "An artifact to revert (from list_spec_history), with version.",
+            "title": "Artifact Id"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The artifact version to show again.",
+            "title": "Version"
+          },
           "product": {
             "anyOf": [
               {
@@ -796,6 +823,154 @@
           "spec_id"
         ],
         "title": "revert_specArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_artifacts",
+      "description": "Use to see what a 6to9 feature spec can be built from, or before changing, picking or opening one of its visuals. A spec is its text plus ARTIFACTS, ranked best first: a working demo (live HTML), the generated mock (an image), rival components (captures of what rivals ship — evidence, never edited), restyles, and our own versions derived from a rival. Each has an artifact_id, whether it is the founder's pick, and whether it is OUTDATED (made from older spec text — don't build from it until 6to9 has refreshed it). Free and read-only; opening an OUTDATED one with get_artifact starts its refresh (paid, once per text change).",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id"
+        ],
+        "title": "list_artifactsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_artifact",
+      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. An HTML artifact (a working demo, or our own version of a rival component) returns its full source to port into this repo; an image returns its URL. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. Free, except that opening an OUTDATED artifact starts its refresh (paid, once per text change).",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "artifact_id": {
+            "description": "The artifact's artifact_id, copied exactly from list_artifacts or get_build_spec's build_options.",
+            "title": "Artifact Id",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id",
+          "artifact_id"
+        ],
+        "title": "get_artifactArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "refine_artifact",
+      "description": "Use when the user wants one of a spec's artifacts changed — 'make the demo show only 3 slots', 'darker mock', 'make our own version of Calendly's picker'. Pass the user's own words. 6to9 decides whether the feedback only changes this artifact's look or changes the feature itself — then it also updates the spec text and the other artifacts follow it, so don't also call refine_spec. Refining a rival capture makes our own version and leaves the capture as it is. Paid: only on the user's ask, once per ask; it can take a few minutes. Never include user-level data, secrets or code.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "artifact_id": {
+            "description": "The artifact's artifact_id, copied exactly from list_artifacts or get_build_spec's build_options.",
+            "title": "Artifact Id",
+            "type": "string"
+          },
+          "feedback": {
+            "description": "What to change, in the user's own words. Trimmed to 500 chars.",
+            "title": "Feedback",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id",
+          "artifact_id",
+          "feedback"
+        ],
+        "title": "refine_artifactArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "pick_artifact",
+      "description": "Use when the user chooses which artifact a spec should be built from (from list_artifacts or build_options). Records it as the founder's pick on 6to9, so get_build_spec binds it. Free, except that picking an OUTDATED artifact starts its refresh (paid, once per text change).",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "artifact_id": {
+            "description": "The artifact's artifact_id, copied exactly from list_artifacts or get_build_spec's build_options.",
+            "title": "Artifact Id",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id",
+          "artifact_id"
+        ],
+        "title": "pick_artifactArguments",
         "type": "object"
       }
     }

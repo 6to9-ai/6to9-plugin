@@ -1,0 +1,1 @@
+PICKED: "Generated mock" is now what this spec builds from. Call get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001").

@@ -1,2 +1,2 @@
-SHOWN: a working demo: https://demo.6to9.ai/d/live-hero; a new mock in your own product's style; 2 rival variants added.
-Call get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") for the updated spec (its visuals and variants) before building.
+SHOWN: a working demo: https://agents.6to9.ai/lp/liveHero1 — its HTML source: get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id=…) with the demo's artifact_id from list_artifacts; a new mock in your own product's style; 2 rival variants added.
+Call list_artifacts(spec_id="aaaaaaaa-0000-0000-0000-000000000001") to see them, or get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") before building.

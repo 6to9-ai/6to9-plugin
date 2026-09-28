@@ -1,8 +1,13 @@
 TEXT REVISIONS (newest first):
-- v2 (agent): make it mobile-first — changed detail, copy
+- v2 (mcp): make it mobile-first — changed detail, copy
 - v1 (portal): shorter copy — changed copy
 - v0 (original)
 MOCK VERSIONS (oldest first):
-- mock v1: Hero with live slots
+- mock v1: Generated mock v1
 - mock v2 (current): darker background
-Undo with revert_spec(spec_id, revision=N) or (mock_version=N).
+ARTIFACT VERSIONS (oldest first):
+- Working demo (demo, artifact_id=cccccccc-0000-0000-0000-000000000001): v1, v2 (current): bigger slot buttons
+  (view: v1 https://agents.6to9.ai/lp/liveHero1?v=1; v2 https://agents.6to9.ai/lp/liveHero1?v=2)
+- Generated mock (mock, artifact_id=cccccccc-0000-0000-0000-000000000002): v1, v2 (current): darker background
+  (view: v1 https://cdn.6to9.ai/v/spec-hero-mock-v1.png; v2 https://cdn.6to9.ai/v/spec-hero-mock-v2.png)
+Undo with revert_spec(spec_id, revision=N) for the text, or (artifact_id=…, version=N) for an artifact.

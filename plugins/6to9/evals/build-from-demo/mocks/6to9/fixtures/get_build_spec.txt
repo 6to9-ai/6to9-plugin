@@ -1,5 +1,5 @@
 {
-  "prompt": "Build 'Live availability in the hero' for Acme Scheduling. Replace the static hero image with a bookable availability widget showing the next 5 open slots, with a 'Book a demo slot' CTA. Reference: Calendly's homepage hero (live slot picker above the fold).\nWORKING DEMO: https://agents-dev.6to9.ai/lp/liveHero1 — a live, clickable demo of this feature. Match its interaction; it is the feature's behavior field made tangible.",
+  "prompt": "STEP 1 — Fetch and look at each reference screenshot URL below (use your image/URL-fetch tool). They show the exact component to match; study the layout, spacing and states before writing any code.\nSTEP 2 — Build the component per the spec, matching those screenshots.\n\nBuild the Live availability in the hero (see screenshots).\nReplace the static hero image with a bookable availability widget showing the next 5 open slots, with a 'Book a demo slot' CTA.\nWHY: Clinic managers decide in the first screen whether booking is quick.\nACCEPTANCE: 5 real open slots render above the fold; picking one enables the CTA.\n\nReference screenshots — FETCH AND VIEW THESE FIRST:\nGenerated mock v3: https://cdn.6to9.ai/v/live-hero-mock-v3.png\n\nWORKING DEMO: https://agents.6to9.ai/lp/liveHero1 — a live, clickable demo of this feature. Match its interaction; it is the feature's behavior field made tangible.\n\nREFERENCE SCOPE: any surrounding UI visible in the references — navigation, sidebars, headers, other page sections — belongs to competitors or examples, NOT to this product. Use the references for the FEATURE itself only; never treat them as a blueprint for navigation, layout, or other sections — take placement and chrome from this product's own existing design.\n\nINSTRUMENT & REPORT: add analytics events for this feature's key actions. When results exist, you can report them back into 6to9 with the MCP tool report_build_result(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\") — optional and at your discretion; the team may have feedback reporting turned off.",
   "spec": {
     "id": "aaaaaaaa-0000-0000-0000-000000000001",
     "title": "Live availability in the hero",
@@ -7,14 +7,16 @@
     "surface": "landing",
     "segment_slug": "clinic-managers",
     "spec": {
-      "detail": "d",
+      "detail": "Replace the static hero image with a bookable availability widget showing the next 5 open slots, with a 'Book a demo slot' CTA.",
+      "why": "Clinic managers decide in the first screen whether booking is quick.",
+      "acceptance": "5 real open slots render above the fold; picking one enables the CTA.",
       "variants": [
         {
           "source": "gen_html",
-          "label": "Generated demo",
+          "label": "Working demo",
           "image_ref": "",
           "evidence_key": "demo:liveHero1",
-          "change_url": "https://agents-dev.6to9.ai/lp/liveHero1"
+          "change_url": "https://agents.6to9.ai/lp/liveHero1"
         },
         {
           "source": "video_frame",
@@ -31,8 +33,8 @@
       ],
       "screens": [
         {
-          "label": "Generated mock v1",
-          "image_ref": "https://cdn.6to9.ai/m/live-hero-v1.png",
+          "label": "Generated mock v3",
+          "image_ref": "https://cdn.6to9.ai/v/live-hero-mock-v3.png",
           "order": 1
         }
       ]
@@ -40,10 +42,10 @@
   },
   "build_options": [
     "OPTIONS TO BUILD FROM (ranked, best first):",
-    "1. Working demo (recommended): https://agents-dev.6to9.ai/lp/liveHero1 — HTML source: get_demo_html(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\"); pick_spec_variant(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", variant_key=\"demo:liveHero1\") records it as the pick",
-    "2. Generated mock: https://cdn.6to9.ai/m/live-hero-v1.png (Generated mock v1) — the build prompt's screenshot; earlier mock versions: list_spec_history(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\")",
-    "3. Calendly demo @ 0:18 — a still from a rival's own demo video: https://cdn.6to9.ai/v/calendly-0018.png — evidence_key yt:cal@18; pick_spec_variant(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", variant_key=\"yt:cal@18\") binds the build prompt to it",
-    "4. restyled from cal.com — a neutral restyle of a rival's page: https://cdn.6to9.ai/v/calcom-restyle.png — evidence_key restyle:c4; pick_spec_variant(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", variant_key=\"restyle:c4\") binds the build prompt to it",
-    "The founder hasn't picked one on 6to9 — show these options to the user and let them (or you, if they leave it to you) choose; the demo is usually the strongest starting point."
+    "1. \"Working demo\" (working demo, v2): https://agents.6to9.ai/lp/liveHero1 — \"a live, clickable HTML demo of the feature — usually the strongest starting point; its source is reference code to port\"; get_artifact(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", artifact_id=\"cccccccc-0000-0000-0000-000000000001\")",
+    "2. \"Generated mock\" (generated mock, v3): https://cdn.6to9.ai/v/live-hero-mock-v3.png — \"a generated image of the feature — a visual target\"; get_artifact(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", artifact_id=\"cccccccc-0000-0000-0000-000000000002\")",
+    "3. \"restyled from cal.com\" (restyled rival component, v1): https://cdn.6to9.ai/v/calcom-restyle.png — \"a rival's component restyled neutrally — its layout without their brand\"; get_artifact(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", artifact_id=\"cccccccc-0000-0000-0000-000000000005\")",
+    "4. \"Calendly demo @ 0:18\" (rival capture, v1): https://cdn.6to9.ai/v/calendly-0018.png — \"what a rival actually ships (evidence, never edited) — refining it makes our own version\"; get_artifact(spec_id=\"aaaaaaaa-0000-0000-0000-000000000001\", artifact_id=\"cccccccc-0000-0000-0000-000000000003\")",
+    "The founder hasn't picked one on 6to9 — show these to the user and let them (or you, if they leave it to you) choose; record it with pick_artifact(spec_id, artifact_id)."
   ]
 }
