@@ -101,7 +101,7 @@
     },
     {
       "name": "get_build_spec",
-      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the artifact they picked) plus its competitor evidence and visuals. Build from the prompt and keep the artifact it binds in view; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact, record the founder's choice with pick_artifact, and don't build from one marked OUTDATED. Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
+      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the artifact they picked) plus its competitor evidence and visuals. Build from the prompt and keep the artifact it binds in view; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact, record the founder's choice with pick_artifact, and don't build from one marked OUTDATED (STYLE OUTDATED is look-only — its content is current; the option says what to do). Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
       "inputSchema": {
         "properties": {
           "product": {
@@ -828,7 +828,7 @@
     },
     {
       "name": "list_artifacts",
-      "description": "Use to see what a 6to9 feature spec can be built from, or before changing, picking or opening one of its visuals. A spec is its text plus ARTIFACTS, ranked best first: a working demo (live HTML), the generated mock (an image), rival components (captures of what rivals ship — evidence, never edited), restyles, and our own versions derived from a rival. Each has an artifact_id, whether it is the founder's pick, and whether it is OUTDATED (made from older spec text — don't build from it until 6to9 has refreshed it). One marked 'chosen on purpose' is an earlier version the founder went back to — build from it; 6to9 leaves it as it is. Free and read-only; opening an OUTDATED one with get_artifact starts its refresh (paid, once per text change).",
+      "description": "Use to see what a 6to9 feature spec can be built from, or before changing, picking or opening one of its visuals. A spec is its text plus ARTIFACTS, ranked best first: a working demo (live HTML), the generated mock (an image), rival components (captures of what rivals ship — evidence, never edited), restyles, and our own versions derived from a rival. Each has an artifact_id, whether it is the founder's pick, and whether it is OUTDATED (made from older spec text — don't build from it until 6to9 has refreshed it) or STYLE OUTDATED (a demo built with an earlier version of the founder's site style — its content is current). One marked 'chosen on purpose' is an earlier version the founder went back to — build from it; 6to9 leaves it as it is. Free and read-only; opening an OUTDATED one with get_artifact starts its refresh (paid, once per change).",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -859,7 +859,7 @@
     },
     {
       "name": "get_artifact",
-      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. An HTML artifact (a working demo, or our own version of a rival component) returns its full source to port into this repo; an image returns its URL. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. One marked 'chosen on purpose' is an earlier version the founder went back to — build from it (no refresh starts). Free, except that opening an OUTDATED artifact starts its refresh (paid, once per text change).",
+      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. An HTML artifact (a working demo, or our own version of a rival component) returns its full source to port into this repo; an image returns its URL. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. One marked 'chosen on purpose' is an earlier version the founder went back to — build from it (no refresh starts). Free, except that opening an OUTDATED artifact starts its refresh (paid, once per change).",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -939,7 +939,7 @@
     },
     {
       "name": "pick_artifact",
-      "description": "Use when the user chooses which artifact a spec should be built from (from list_artifacts or build_options). Records it as the founder's pick on 6to9, so get_build_spec binds it. Free, except that picking an OUTDATED artifact starts its refresh (paid, once per text change).",
+      "description": "Use when the user chooses which artifact a spec should be built from (from list_artifacts or build_options). Records it as the founder's pick on 6to9, so get_build_spec binds it. Free, except that picking an OUTDATED artifact starts its refresh (paid, once per change).",
       "inputSchema": {
         "properties": {
           "spec_id": {
