@@ -76,9 +76,10 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `add_audience` | add an audience (a customer segment) to your product in 6to9 |
 | `recommend_features` | what to build or change, ranked, with why and which rivals back it |
 | `get_build_spec` | the build-ready prompt for one item, as the portal's "Copy prompt" gives it, plus the artifacts it can be built from |
-| `show_idea` | see what an idea would look like: a working demo, a mock and how rivals ship it |
+| `view_idea` | show an idea in the chat (free): an interactive card with the live demo where supported, otherwise a preview image and link |
+| `show_idea` | make new visuals for an idea (paid): a working demo, a mock and how rivals ship it |
 | `list_artifacts` | a spec's artifacts (working demo, mock, rival components, our own versions), ranked, with which is picked or outdated |
-| `get_artifact` | open one artifact: a demo's HTML source to port, or an image |
+| `get_artifact` | open one artifact: with `building=true`, a demo's HTML source to port, or an image; otherwise it is shown to the user |
 | `refine_artifact` | change one artifact ("darker", "only 3 slots", "our own version of this rival's picker"); 6to9 updates the spec text too when the change is to the feature itself |
 | `pick_artifact` | choose which artifact a spec builds from |
 | `get_mvp_brief` | the minimum to ship for one audience segment |
