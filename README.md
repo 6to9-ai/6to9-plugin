@@ -2,9 +2,9 @@
 
 Your coding agent, working in your product's repo, can ask [6to9](https://6to9.ai) what strong competitors do before it builds your landing page, signup, onboarding, pricing page or core flows. It gets ranked recommendations grounded in 6to9's competitor research for your product, and build-ready specs: the same prompt and references you pick in the 6to9 portal.
 
-You need a 6to9 account with your product added, and an API key from **https://product.6to9.ai/settings/api-keys**.
+You need a 6to9 account with your product added. Claude Code signs you in through your browser. Clients that cannot do that (Cursor, Codex) use an API key from **https://product.6to9.ai/settings/api-keys**.
 
-Everything connects to one hosted MCP server: `https://mcp.6to9.ai/mcp` (streamable HTTP, `Authorization: Bearer <your key>`).
+Everything connects to one hosted MCP server: `https://mcp.6to9.ai/mcp` (streamable HTTP; browser sign-in where the client supports it, otherwise `Authorization: Bearer <your key>`).
 
 ## Claude Code
 
@@ -13,7 +13,7 @@ Everything connects to one hosted MCP server: `https://mcp.6to9.ai/mcp` (streama
 /plugin install 6to9@6to9
 ```
 
-Claude Code asks for your 6to9 API key when the plugin is enabled. The key is stored in your system keychain, not in a settings file. Restart Claude Code and check that `6to9` shows as connected in `/mcp`.
+No key to paste: the first 6to9 call opens your browser to sign in to 6to9 (or run `/mcp`, choose 6to9, then Authenticate). Check that `6to9` shows as connected in `/mcp`. If you still have a key, it works for clients that need one (see Cursor and Codex below) at https://product.6to9.ai/settings/api-keys.
 
 From a shell instead: `claude plugin marketplace add 6to9-ai/6to9-plugin` then `claude plugin install 6to9@6to9`.
 
@@ -62,7 +62,7 @@ Connect to `https://mcp.6to9.ai/mcp` over streamable HTTP with the header `Autho
 - "What should we build next for onboarding?"
 - "How do our competitors do their pricing pages?"
 
-The first time, the agent asks which 6to9 product this repo is and saves the answer to `.6to9.json` at the repo root (commit it or ignore it). Your key's row at https://product.6to9.ai/settings/api-keys shows when it was last used.
+The first time, the agent asks which 6to9 product this repo is and saves the answer to `.6to9.json` at the repo root (commit it or ignore it). If you use a key, its row at https://product.6to9.ai/settings/api-keys shows when it was last used.
 
 ## What your agent sends
 

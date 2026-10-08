@@ -87,7 +87,7 @@ When a tool says something isn't researched, or the user asks 6to9 to look into 
    - **on a cooldown or over today's limit** — tell the user; don't retry now;
    - **a quote** — only when 6to9 needs approval (e.g. it will use credits): show it, and only after the user's explicit yes call again with that quote's `confirm`. Never reuse a token for a different request.
 2. **Never confirm a quote on the user's behalf.** No answer is a no. A token can also expire: call again WITHOUT `confirm` for a fresh quote, then ask again.
-3. If a `start_research` answer points at a link, says the key lacks permission, or says the account must add credits or pay first, send the user there (or to mint a key at the portal) and stop; don't retry.
+3. If a `start_research` answer points at a link, says the key lacks permission, or says the account must add credits or pay first, send the user there and stop; don't retry.
 4. Once started (or confirmed) it queues and runs in the background. Tell the user that, keep working on whatever else is in front of you, and check back with `get_research_status(run_id)` later — never block on it or poll it in a tight loop. Done → read the results the normal way with `recommend_features` or `get_build_spec`. Failed → tell the user; if 6to9 says it can be retried and they want to, call the same tool again (`refine_spec` for a spec change, `start_research` otherwise).
 
 ### Refining a spec
@@ -132,5 +132,5 @@ At the start of a planning session, sprint or roadmap discussion, or when the us
 - **Honest misses.** When a tool answers NOT RESEARCHED YET, tell the user plainly and never present the nearest items as research on the area they asked about — then either offer to start it (see Starting research) or point them to the portal link it gives.
 - **Cite only what came back.** Name only the rivals and evidence the tools returned. Never invent competitor behaviour or claim research that 6to9 didn't return.
 - **The founder's choices win.** Keep the tool's order; don't re-rank the founder's planned items below your own preference.
-- **Errors.** If a tool says the key was rejected, tell the user to check or mint a key at https://product.6to9.ai/settings/api-keys. If 6to9 is unreachable, carry on without it and say so.
+- **Errors.** If a tool says you are not signed in or the credential was rejected, tell the user to sign in to 6to9 again (in Claude Code: `/mcp`, choose 6to9, Authenticate; other clients that use a pasted key: check or mint one at https://product.6to9.ai/settings/api-keys). If 6to9 is unreachable, carry on without it and say so.
 <!-- 6to9:end -->
