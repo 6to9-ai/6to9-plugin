@@ -1,0 +1,1 @@
+6to9 has nothing to show for this idea yet. Ask the user whether to make visuals with show_idea(spec_id="aaaaaaaa-0000-0000-0000-000000000001") — that costs a run.

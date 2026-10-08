@@ -101,7 +101,7 @@
     },
     {
       "name": "get_build_spec",
-      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the artifact they picked) plus its competitor evidence and visuals. Build from the prompt and keep the artifact it binds in view; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact, record the founder's choice with pick_artifact, and don't build from one marked OUTDATED (STYLE OUTDATED is look-only — its content is current; the option says what to do). Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
+      "description": "Use when you are about to build one of 6to9's recommended features, or the user asks for a build-ready spec or prompt for it. Returns the composed build prompt (exactly what the founder gets from 'Copy prompt' in the 6to9 portal, bound to the artifact they picked) plus its competitor evidence and visuals. Build from the prompt and keep the artifact it binds in view; cite only the evidence it contains. build_options lists the spec's artifacts, ranked best first — open one with get_artifact (pass building=true when building: only then does it return the source), record the founder's choice with pick_artifact, and don't build from one marked OUTDATED (STYLE OUTDATED is look-only — its content is current; the option says what to do). Address the item by spec_id (from recommend_features), or by segment + surface + slug (+ rival for remix items). Pass building=true only when you are actually going to build it: that registers it in the team's Build tracker.",
       "inputSchema": {
         "properties": {
           "product": {
@@ -554,8 +554,39 @@
       }
     },
     {
+      "name": "view_idea",
+      "description": "Show one 6to9 idea to the user: its live HTML demo, mock and rival screens, inline in the chat (an interactive card where supported, otherwise a preview image and the live demo link). FREE: it only reads what 6to9 already made. Use this whenever the user wants to see an idea. show_idea is different: it MAKES new visuals and costs a run.",
+      "inputSchema": {
+        "properties": {
+          "spec_id": {
+            "description": "The spec's spec_id, from recommend_features or get_build_spec.",
+            "title": "Spec Id",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
+            "title": "Product"
+          }
+        },
+        "required": [
+          "spec_id"
+        ],
+        "title": "view_ideaArguments",
+        "type": "object"
+      }
+    },
+    {
       "name": "show_idea",
-      "description": "Use when the user wants to SEE a feature idea or spec from 6to9 — 'show me this idea', 'what would it look like', 'is there a demo'. The same as the portal's 'Show me this idea' button: in one run 6to9 builds a working demo, a mock in the user's own product's style, and rival variants (how competitors ship it), keeping whichever of the three it could make. Takes a couple of minutes. It is paid work that counts toward 6to9's daily limits: call it only when the user asked to see it or said yes to your offer, and only once per ask. Afterwards, list_artifacts (or get_build_spec) shows what landed.",
+      "description": "Use when the user wants to SEE a feature idea or spec from 6to9 that has nothing to show yet, or asks for new visuals of it — 'show me this idea', 'what would it look like', 'is there a demo'. It MAKES new visuals and costs a run: to show what an idea already has, call view_idea instead (free), and use this only when view_idea finds nothing. The same as the portal's 'Show me this idea' button: in one run 6to9 builds a working demo, a mock in the user's own product's style, and rival variants (how competitors ship it), keeping whichever of the three it could make. Takes a couple of minutes. It is paid work that counts toward 6to9's daily limits: call it only when the user asked to see it or said yes to your offer, and only once per ask. Afterwards, list_artifacts (or get_build_spec) shows what landed.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -586,7 +617,7 @@
     },
     {
       "name": "get_demo_html",
-      "description": "Deprecated — prefer get_artifact. Use when you are building a 6to9 spec that has a working demo — get_build_spec's prompt says WORKING DEMO or its build_options list one, or show_idea just made one. Returns the demo's full HTML source to use as the reference implementation (a web fetch of the demo URL loses the code). Port its structure, interaction and copy into this repo's own framework and conventions rather than pasting the file verbatim. Free and read-only.",
+      "description": "Deprecated — prefer get_artifact. To SHOW a demo use view_idea; to port its code, get_artifact(..., building=true). Use when you are building a 6to9 spec that has a working demo — get_build_spec's prompt says WORKING DEMO or its build_options list one, or show_idea just made one. Returns the demo's full HTML source to use as the reference implementation (a web fetch of the demo URL loses the code). Port its structure, interaction and copy into this repo's own framework and conventions rather than pasting the file verbatim. Free and read-only.",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -859,7 +890,7 @@
     },
     {
       "name": "get_artifact",
-      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. An HTML artifact (a working demo, or our own version of a rival component) returns its full source to port into this repo; an image returns its URL. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. One marked 'chosen on purpose' is an earlier version the founder went back to — build from it (no refresh starts). Free, except that opening an OUTDATED artifact starts its refresh (paid, once per change).",
+      "description": "Use to open one artifact from list_artifacts or get_build_spec's build_options. Pass building=true when building it into this repo: only then does it return the HTML source to port — an HTML artifact (a working demo, or our own version of a rival component) returns its full source, an image its URL. Otherwise the artifact is shown to the user (an interactive idea card where the chat supports it, else a preview image and the live link) and no source is returned. If it is outdated, 6to9 starts refreshing it and says so — tell the user and check back rather than building from it. One marked 'chosen on purpose' is an earlier version the founder went back to — build from it (no refresh starts). Free, except that opening an OUTDATED artifact starts its refresh (paid, once per change).",
       "inputSchema": {
         "properties": {
           "spec_id": {
@@ -884,6 +915,12 @@
             "default": null,
             "description": "The 6to9 product id for this repository: the product_id in .6to9.json at the repo root, or an id from list_my_products. Omit it when the account has one product.",
             "title": "Product"
+          },
+          "building": {
+            "default": false,
+            "description": "true when you are building it into this repo: returns the HTML source to port. false (default): the artifact is shown to the user, without its source.",
+            "title": "Building",
+            "type": "boolean"
           }
         },
         "required": [

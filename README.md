@@ -2,9 +2,9 @@
 
 Your coding agent, working in your product's repo, can ask [6to9](https://6to9.ai) what strong competitors do before it builds your landing page, signup, onboarding, pricing page or core flows. It gets ranked recommendations grounded in 6to9's competitor research for your product, and build-ready specs: the same prompt and references you pick in the 6to9 portal.
 
-You need a 6to9 account with your product added, and an API key from **https://product.6to9.ai/settings/api-keys**.
+You need a 6to9 account with your product added. Claude Code signs you in through your browser. Clients that cannot do that (Cursor, Codex) use an API key from **https://product.6to9.ai/settings/api-keys**.
 
-Everything connects to one hosted MCP server: `https://mcp.6to9.ai/mcp` (streamable HTTP, `Authorization: Bearer <your key>`).
+Everything connects to one hosted MCP server: `https://mcp.6to9.ai/mcp` (streamable HTTP; browser sign-in where the client supports it, otherwise `Authorization: Bearer <your key>`).
 
 ## Claude Code
 
@@ -13,7 +13,7 @@ Everything connects to one hosted MCP server: `https://mcp.6to9.ai/mcp` (streama
 /plugin install 6to9@6to9
 ```
 
-Claude Code asks for your 6to9 API key when the plugin is enabled. The key is stored in your system keychain, not in a settings file. Restart Claude Code and check that `6to9` shows as connected in `/mcp`.
+No key to paste: the first 6to9 call opens your browser to sign in to 6to9 (or run `/mcp`, choose 6to9, then Authenticate). Check that `6to9` shows as connected in `/mcp`. If you still have a key, it works for clients that need one (see Cursor and Codex below) at https://product.6to9.ai/settings/api-keys.
 
 From a shell instead: `claude plugin marketplace add 6to9-ai/6to9-plugin` then `claude plugin install 6to9@6to9`.
 
@@ -62,7 +62,7 @@ Connect to `https://mcp.6to9.ai/mcp` over streamable HTTP with the header `Autho
 - "What should we build next for onboarding?"
 - "How do our competitors do their pricing pages?"
 
-The first time, the agent asks which 6to9 product this repo is and saves the answer to `.6to9.json` at the repo root (commit it or ignore it). Your key's row at https://product.6to9.ai/settings/api-keys shows when it was last used.
+The first time, the agent asks which 6to9 product this repo is and saves the answer to `.6to9.json` at the repo root (commit it or ignore it). If you use a key, its row at https://product.6to9.ai/settings/api-keys shows when it was last used.
 
 ## What your agent sends
 
@@ -76,9 +76,10 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `add_audience` | add an audience (a customer segment) to your product in 6to9 |
 | `recommend_features` | what to build or change, ranked, with why and which rivals back it |
 | `get_build_spec` | the build-ready prompt for one item, as the portal's "Copy prompt" gives it, plus the artifacts it can be built from |
-| `show_idea` | see what an idea would look like: a working demo, a mock and how rivals ship it |
+| `view_idea` | show an idea in the chat (free): an interactive card with the live demo where supported, otherwise a preview image and link |
+| `show_idea` | make new visuals for an idea (paid): a working demo, a mock and how rivals ship it |
 | `list_artifacts` | a spec's artifacts (working demo, mock, rival components, our own versions), ranked, with which is picked or outdated |
-| `get_artifact` | open one artifact: a demo's HTML source to port, or an image |
+| `get_artifact` | open one artifact: a demo's HTML source to port (or an image) only with `building=true`; without it the artifact is shown to the user and no source is returned |
 | `refine_artifact` | change one artifact ("darker", "only 3 slots", "our own version of this rival's picker"); 6to9 updates the spec text too when the change is to the feature itself |
 | `pick_artifact` | choose which artifact a spec builds from |
 | `get_mvp_brief` | the minimum to ship for one audience segment |
