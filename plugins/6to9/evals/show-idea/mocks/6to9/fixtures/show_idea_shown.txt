@@ -1,2 +1,7 @@
-SHOWN: a working demo: https://agents.6to9.ai/lp/liveHero1 — its HTML source: get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id=…) with the demo's artifact_id from list_artifacts; a new mock in your own product's style; 2 rival variants added.
+SHOWN: a working demo: https://agents.6to9.ai/lp/liveHero1 — its HTML source: get_artifact(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id=…, building=true) with the demo's artifact_id from list_artifacts; a new mock in your own product's style; 2 rival variants added.
 Call list_artifacts(spec_id="aaaaaaaa-0000-0000-0000-000000000001") to see them, or get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") before building.
+IDEA: Live availability in the hero
+Why: Clinic managers decide in the first screen whether booking is quick.
+![Live availability in the hero preview](https://cdn.6to9.ai/v/live-hero-mock-v1.png)
+Live interactive demo: https://agents.6to9.ai/lp/liveHero1
+SHOW IT: If an interactive 6to9 idea card was shown to the user above, don't repeat it. Otherwise show the user the preview image (the markdown line above), say it is a preview, and give the live demo link — it opens the working demo in one click.

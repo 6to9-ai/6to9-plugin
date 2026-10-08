@@ -4,3 +4,8 @@ The hero now offers the next 3 open slots instead of 5.
 Now refreshing from the new text: Generated mock.
 Call get_build_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001") before building.
 To undo this artifact's change: revert_spec(spec_id="aaaaaaaa-0000-0000-0000-000000000001", artifact_id="cccccccc-0000-0000-0000-000000000001", version=2).
+IDEA: Live availability in the hero
+Why: Clinic managers decide in the first screen whether booking is quick.
+![Live availability in the hero preview](https://cdn.6to9.ai/v/live-hero-mock-v3.png)
+Live interactive demo: https://agents.6to9.ai/lp/liveHero1
+SHOW IT: If an interactive 6to9 idea card was shown to the user above, don't repeat it. Otherwise show the user the preview image (the markdown line above), say it is a preview, and give the live demo link — it opens the working demo in one click.
