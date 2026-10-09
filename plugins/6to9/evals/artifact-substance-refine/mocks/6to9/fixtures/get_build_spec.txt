@@ -42,3 +42,8 @@
     "The founder hasn't picked one on 6to9 — show these to the user and let them (or you, if they leave it to you) choose; record it with pick_artifact(spec_id, artifact_id)."
   ]
 }
+IDEA: Live availability in the hero
+Why: Clinic managers decide in the first screen whether booking is quick.
+![Live availability in the hero preview](https://cdn.6to9.ai/v/live-hero-mock-v3.png)
+Live interactive demo: [Open the live demo](https://agents.6to9.ai/lp/liveHero1)
+SHOW IT: If an interactive 6to9 idea card was shown to the user above, don't repeat it. Otherwise copy the preview image's markdown line above verbatim into your reply (the user only sees images you write into your own answer), say it is a preview, and add the link [Open the live demo](https://agents.6to9.ai/lp/liveHero1) in your reply — it opens the working demo in one click.
