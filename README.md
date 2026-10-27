@@ -92,6 +92,9 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `refine_spec` | change a build spec's text ("too generic", "mobile-first") |
 | `list_spec_history` | see a spec's past text revisions and each artifact's versions |
 | `revert_spec` | undo a spec's text, or show an earlier version of an artifact |
+| `list_library_apps` | the apps in the free 6to9 Screen Library (real public pages of popular web apps), optionally by page type (free) |
+| `search_screens` | find library pages by words, page type, pattern, app or viewport, with screenshot links (free) |
+| `get_app_flow` | one library app's pages with screenshots, plus a ready build prompt for the flow or one page (free) |
 | `update_spec_visual` | deprecated — prefer `refine_artifact` on the mock |
 | `pick_spec_variant` | deprecated — prefer `pick_artifact` |
 | `get_demo_html` | deprecated — prefer `get_artifact` on the demo |
