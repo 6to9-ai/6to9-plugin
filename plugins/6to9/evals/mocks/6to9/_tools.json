@@ -1010,6 +1010,162 @@
         "title": "pick_artifactArguments",
         "type": "object"
       }
+    },
+    {
+      "name": "list_library_apps",
+      "description": "Free. The 6to9 Screen Library: real public pages (landing, pricing, signup, login, docs, changelog) of popular web apps, desktop and phone, captured by 6to9. Call this to see which apps it holds before building a page or flow 'like <app>', or to pick references. Then search_screens or get_app_flow.",
+      "inputSchema": {
+        "properties": {
+          "page_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Only apps that have a page of this type, e.g. pricing, signup, login, landing, docs, changelog.",
+            "title": "Page Type"
+          }
+        },
+        "title": "list_library_appsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "search_screens",
+      "description": "Free. Search the 6to9 Screen Library for real pages to use as a visual reference when building a page or component: by page type (pricing, signup, login, onboarding, landing, docs, changelog), UI pattern (e.g. pricing_table, plan_toggle, sso_buttons, logo_wall), app, viewport, or words. Returns full-page screenshot URLs and what each page shows. Use get_app_flow for the build prompt.",
+      "inputSchema": {
+        "properties": {
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Words to find, all of which must match the app name, the page's description, its visible text or its UI patterns, e.g. 'yearly toggle'.",
+            "title": "Query"
+          },
+          "page_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "pricing, signup, login, onboarding, landing, docs, changelog or other.",
+            "title": "Page Type"
+          },
+          "pattern": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A UI pattern the page shows, e.g. pricing_table, plan_toggle, sso_buttons, logo_wall.",
+            "title": "Pattern"
+          },
+          "app": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "An app slug from list_library_apps.",
+            "title": "App"
+          },
+          "viewport": {
+            "anyOf": [
+              {
+                "enum": [
+                  "desktop",
+                  "phone"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Only pages captured at this viewport; the other viewport's URL is left out.",
+            "title": "Viewport"
+          },
+          "limit": {
+            "default": 10,
+            "description": "Most pages to return (1-50).",
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "title": "search_screensArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_app_flow",
+      "description": "Free. One app's pages from the 6to9 Screen Library, in order, with full-page desktop and phone screenshot URLs, and a ready build prompt: for one page (pass step) or the whole flow. Call it when the user wants to build a page or flow like a specific app's ('make our pricing page like Linear's'), then follow the build prompt: it says to build in this codebase's stack and never copy the app's brand or text.",
+      "inputSchema": {
+        "properties": {
+          "app": {
+            "description": "The app's slug, from list_library_apps or search_screens.",
+            "title": "App",
+            "type": "string"
+          },
+          "step": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A page's step number from search_screens or this tool's pages. Omit for the whole flow's prompt.",
+            "title": "Step"
+          },
+          "viewport": {
+            "anyOf": [
+              {
+                "enum": [
+                  "desktop",
+                  "phone"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Keep only this viewport's screenshot URLs.",
+            "title": "Viewport"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "title": "get_app_flowArguments",
+        "type": "object"
+      }
     }
   ]
 }
