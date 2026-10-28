@@ -1013,7 +1013,7 @@
     },
     {
       "name": "list_library_apps",
-      "description": "Free. The 6to9 Screen Library: real public pages (landing, pricing, signup, login, docs, changelog) of popular web apps, desktop and phone, captured by 6to9. Call this to see which apps it holds before building a page or flow 'like <app>', or to pick references. Then search_screens or get_app_flow.",
+      "description": "Free. The 6to9 Product Design Library: real public pages (landing, pricing, signup, login, docs, changelog) of popular web apps, desktop and phone, captured by 6to9. Call this to see which apps it holds before building a page or flow 'like <app>', or to pick references. Then search_screens or get_app_flow.",
       "inputSchema": {
         "properties": {
           "page_type": {
@@ -1036,7 +1036,7 @@
     },
     {
       "name": "search_screens",
-      "description": "Free. Search the 6to9 Screen Library for real pages to use as a visual reference when building a page or component: by page type (pricing, signup, login, onboarding, landing, docs, changelog), UI pattern (e.g. pricing_table, plan_toggle, sso_buttons, logo_wall), app, viewport, or words. Returns full-page screenshot URLs and what each page shows. Use get_app_flow for the build prompt.",
+      "description": "Free. Search the 6to9 Product Design Library for real pages to use as a visual reference when building a page or component: by page type (pricing, signup, login, onboarding, landing, docs, changelog), UI pattern (e.g. pricing_table, plan_toggle, sso_buttons, logo_wall), app, viewport, or words. With words, pages whose name, description or patterns match come first; matched: page_text_only means a word appears only in the page's visible text, which is a weaker reference. Returns full-page screenshot URLs and what each page shows. Use get_app_flow for the build prompt. Use them for structure and patterns only; never copy the app's brand, assets or text.",
       "inputSchema": {
         "properties": {
           "query": {
@@ -1113,6 +1113,12 @@
             "description": "Most pages to return (1-50).",
             "title": "Limit",
             "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "Skip this many matches, to read the next page of results (use the offset the previous result gave).",
+            "title": "Offset",
+            "type": "integer"
           }
         },
         "title": "search_screensArguments",
@@ -1121,7 +1127,7 @@
     },
     {
       "name": "get_app_flow",
-      "description": "Free. One app's pages from the 6to9 Screen Library, in order, with full-page desktop and phone screenshot URLs, and a ready build prompt: for one page (pass step) or the whole flow. Call it when the user wants to build a page or flow like a specific app's ('make our pricing page like Linear's'), then follow the build prompt: it says to build in this codebase's stack and never copy the app's brand or text.",
+      "description": "Free. One app's pages from the 6to9 Product Design Library, in order, with full-page desktop and phone screenshot URLs, and a ready build prompt: for one page (pass step) or the whole flow. Call it when the user wants to build a page or flow like a specific app's ('make our pricing page like Linear's'), then follow the build prompt: it says to build in this codebase's stack and never copy the app's brand or text.",
       "inputSchema": {
         "properties": {
           "app": {
@@ -1156,7 +1162,7 @@
               }
             ],
             "default": null,
-            "description": "Keep only this viewport's screenshot URLs.",
+            "description": "Keep only this viewport's screenshot URLs; pages not captured at it keep their step but carry no screenshot.",
             "title": "Viewport"
           }
         },
