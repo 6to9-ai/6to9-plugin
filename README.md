@@ -95,6 +95,8 @@ Only what a tool call needs: your product id, the area you're working on, and op
 | `list_library_apps` | the apps in the free 6to9 Product Design Library (real public pages of popular web apps), optionally by page type (free) |
 | `search_screens` | find library pages by words, page type, pattern, app or viewport, with screenshot links (free) |
 | `get_app_flow` | one library app's pages with screenshots, plus a ready build prompt for the flow or one page (free) |
+| `search_design_patterns` | find the library's open-source design patterns (animated heroes today) by interaction, theme, look or words (free) |
+| `get_design_pattern` | one design pattern's complete source (React or HTML), assets, credits and a build prompt (free) |
 | `update_spec_visual` | deprecated — prefer `refine_artifact` on the mock |
 | `pick_spec_variant` | deprecated — prefer `pick_artifact` |
 | `get_demo_html` | deprecated — prefer `get_artifact` on the demo |

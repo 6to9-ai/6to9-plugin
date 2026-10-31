@@ -1172,6 +1172,121 @@
         "title": "get_app_flowArguments",
         "type": "object"
       }
+    },
+    {
+      "name": "search_design_patterns",
+      "description": "Free. Search the 6to9 Product Design Library's design patterns: open-source page sections you can build from, such as animated heroes (scenes that react to the cursor, kinetic type, objects to click or tear). Call it when the user wants a hero, an animated section or a page people remember, then get_design_pattern for the full code. Filter by interaction, theme or look, or by words.",
+      "inputSchema": {
+        "properties": {
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Words that must all appear in the pattern's title, description, family or tags, e.g. 'ticket'.",
+            "title": "Query"
+          },
+          "interaction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "cursor (reacts to the pointer), type (the motion is the typography), ambient (plays on its own) or object (something to click or drag).",
+            "title": "Interaction"
+          },
+          "theme": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "seasonal, sci-fi, nature, retro, luxury, playful or abstract.",
+            "title": "Theme"
+          },
+          "look": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "dark, light or colourful.",
+            "title": "Look"
+          },
+          "limit": {
+            "default": 10,
+            "description": "Most patterns to return (1-50).",
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "Skip this many matches, to read the next page of results (use the offset the previous result gave).",
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "title": "search_design_patternsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_design_pattern",
+      "description": "Free. One design pattern (e.g. an animated hero) from the 6to9 Product Design Library with its complete source in the answer (React + TypeScript, or one self-contained HTML file), image assets, credits and a build prompt. Follow the prompt: rebuild it in this codebase's stack with the product's copy and colours, keep the motion and the credits line.",
+      "inputSchema": {
+        "properties": {
+          "pattern": {
+            "description": "The pattern's slug, from search_design_patterns.",
+            "title": "Pattern",
+            "type": "string"
+          },
+          "style": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "A style key from this tool's styles field (\"0\" is the lead). Omit for the lead style.",
+            "title": "Style"
+          },
+          "code": {
+            "default": "react",
+            "description": "react (React + TypeScript; falls back to HTML when a style has no React version) or html (one self-contained file).",
+            "enum": [
+              "react",
+              "html"
+            ],
+            "title": "Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pattern"
+        ],
+        "title": "get_design_patternArguments",
+        "type": "object"
+      }
     }
   ]
 }
